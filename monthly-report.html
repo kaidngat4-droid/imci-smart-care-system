@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>التقرير الشهري | IMCI</title>
+    <link rel="stylesheet" href="monthly-report.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- الترويسة الرسمية -->
+<header class="official-header">
+    <img src="assets/images/yemen-eagle.png" class="eagle">
+
+    <div class="header-text">
+        <h1>الجمهورية اليمنية</h1>
+        <h2>وزارة الصحة والبيئة</h2>
+        <h3>قطاع الرعاية الصحية الأولية</h3>
+        <h4>إدارة صحة الطفل</h4>
+    </div>
+</header>
+
+<!-- معلومات التقرير -->
+<section class="report-info">
+    <div><strong>المحافظة:</strong> <span id="gov"></span></div>
+    <div><strong>المديرية:</strong> <span id="district">العديـــــــــــــــن</span></div>
+    <div><strong>المرفق الصحي:</strong> <span id="facilityName"></span></div>
+    <div><strong>العامل الصحي:</strong> <span id="healthWorker"></span></div>
+    <div><strong>السنة:</strong> <span id="year"></span></div>
+</section>
+
+<!-- عدد الحالات -->
+<section class="card">
+    <h2>عدد الحالات حسب النوع</h2>
+
+    <table>
+        <tr>
+            <th>ذكر</th>
+            <th>أنثى</th>
+        </tr>
+        <tr>
+            <td id="maleCount">0</td>
+            <td id="femaleCount">0</td>
+        </tr>
+    </table>
+</section>
+
+<!-- العمر -->
+<section class="card">
+    <h2>عدد الحالات حسب العمر</h2>
+
+    <table>
+        <tr>
+            <th>أقل من شهرين</th>
+            <th>من شهرين إلى أقل من سنة</th>
+            <th>من سنة إلى أقل من سنتين</th>
+            <th>من سنتين إلى أقل من خمس سنوات</th>
+        </tr>
+        <tr>
+            <td id="age1">0</td>
+            <td id="age2">0</td>
+            <td id="age3">0</td>
+            <td id="age4">0</td>
+        </tr>
+    </table>
+</section>
+
+<!-- نوع الزيارة -->
+<section class="card">
+    <h2>نوع الزيارة</h2>
+
+    <div class="visit-types">
+        <span>أولية: <strong id="firstVisit">0</strong></span>
+        <span>متابعة: <strong id="followVisit">0</strong></span>
+    </div>
+</section>
+<section class="card">
+    <h2>🧒 تصنيف الأطفال (من شهرين إلى أقل من خمس سنوات)</h2>
+
+    <div class="classification-grid">
+
+        <!-- سعال / تنفس -->
+        <div class="class-box red">🚨 مرض شديد جدًا <span>0</span></div>
+        <div class="class-box red">🫁 التهاب رئوي شديد <span>0</span></div>
+        <div class="class-box orange">🫁 التهاب رئوي <span>0</span></div>
+        <div class="class-box green">✅ لا يوجد سعال <span>0</span></div>
+
+        <!-- إسهال -->
+        <div class="class-box red">💧 إسهال مع جفاف شديد <span>0</span></div>
+        <div class="class-box orange">💧 إسهال مع جفاف <span>0</span></div>
+        <div class="class-box green">💧 لا يوجد جفاف <span>0</span></div>
+
+        <!-- الحلق -->
+        <div class="class-box orange">🗣️ التهاب الحلق السبحي <span>0</span></div>
+        <div class="class-box green">🗣️ التهاب الحلق غير السبحي <span>0</span></div>
+        <div class="class-box green">🗣️ لا يوجد مشكلة بالحلق <span>0</span></div>
+
+        <!-- الأذن -->
+        <div class="class-box orange">👂 التهاب حاد بالأذن <span>0</span></div>
+        <div class="class-box yellow">👂 التهاب مزمن بالأذن <span>0</span></div>
+        <div class="class-box green">👂 لا توجد مشكلة بالأذن <span>0</span></div>
+
+        <!-- الحمى -->
+        <div class="class-box red">🔥 مرض حمى شديد جدًا <span>0</span></div>
+        <div class="class-box red">🦟 ملاريا <span>0</span></div>
+        <div class="class-box orange">🔥 حمى بدون سبب واضح <span>0</span></div>
+
+        <!-- التغذية -->
+        <div class="class-box red">🥗 سوء تغذية شديد <span>0</span></div>
+        <div class="class-box orange">⚖️ نقص الوزن <span>0</span></div>
+        <div class="class-box yellow">🩸 فقر الدم <span>0</span></div>
+
+    </div>
+</section>
+<section class="card">
+    <h2>📏 محيط منتصف الذراع (MUAC)</h2>
+
+    <div class="muac-grid">
+
+        <div class="muac-box red">
+            🚨 أقل من 11.5 سم
+            <span>0</span>
+        </div>
+
+        <div class="muac-box orange">
+            ⚠️ من 11.5 إلى 12.5 سم
+            <span>0</span>
+        </div>
+
+        <div class="muac-box green">
+            ✅ أكبر من 12.5 سم
+            <span>0</span>
+        </div>
+
+    </div>
+</section>
+<section class="card">
+    <h2>⚖️ تقييم نقص الوزن وفقر الدم ومشاكل التغذية</h2>
+
+    <div class="nutrition-grid">
+
+        <div class="nutrition-box red">
+            🚨 نقص في الوزن شديد
+            <span>0</span>
+        </div>
+
+        <div class="nutrition-box dark-red">
+            🩸 فقر دم شديد (Hb < 7 g/dl)
+            <span>0</span>
+        </div>
+
+        <div class="nutrition-box orange">
+            🩸 فقر دم
+            <span>0</span>
+        </div>
+
+        <div class="nutrition-box yellow">
+            ⚠️ مشاكل التغذية
+            <span>0</span>
+        </div>
+
+    </div>
+</section>
+<section class="card">
+    <h2>🍼 تصنيف الأطفال من أقل من شهرين</h2>
+
+    <div class="infant-grid">
+
+        <div class="infant-box red">
+            🚨 احتمال الإصابة بالتهاب بكتيري خطير
+            <span>0</span>
+        </div>
+
+        <div class="infant-box orange">
+            🩺 التهاب بكتيري موضعي
+            <span>0</span>
+        </div>
+
+        <div class="infant-box yellow">
+            🌕 صفار واضح (يرقان)
+            <span>0</span>
+        </div>
+
+        <div class="infant-box blue-dark">
+            💧 جفاف شديد
+            <span>0</span>
+        </div>
+
+        <div class="infant-box blue-light">
+            💦 بعض الجفاف
+            <span>0</span>
+        </div>
+
+        <div class="infant-box green-light">
+            ✅ لا يوجد جفاف
+            <span>0</span>
+        </div>
+
+        <div class="infant-box purple-dark">
+            🤢 إسهال مستمر شديد
+            <span>0</span>
+        </div>
+
+        <div class="infant-box purple-light">
+            🩸 دم في البراز
+            <span>0</span>
+        </div>
+
+        <div class="infant-box teal">
+            🍎 مشكلة في التغذية
+            <span>0</span>
+        </div>
+
+        <div class="infant-box orange-dark">
+            ⚖️ نقص وزن
+            <span>0</span>
+        </div>
+
+        <div class="infant-box gray">
+            ✔️ لا توجد مشكلة في التغذية
+            <span>0</span>
+        </div>
+
+    </div>
+</section>
+<!-- ========================= -->
+<!-- مشاكل أخرى -->
+<!-- ========================= -->
+<section class="card">
+    <h2>📝 مشاكل أخرى</h2>
+
+    <div class="other-issues">
+        <label for="otherIssuesCount">عدد الحالات:</label>
+        <input type="number" id="otherIssuesCount" min="0" placeholder="0">
+    </div>
+</section>
+
+<!-- ========================= -->
+<!-- إحالة فورية -->
+<!-- ========================= -->
+<section class="card">
+    <h2>🚑 إحالة فورية</h2>
+
+    <div class="urgent-referral">
+        <label for="referralWithMed">مع جرعة علاج:</label>
+        <input type="number" id="referralWithMed" min="0" placeholder="0">
+
+        <label for="referralWithoutMed">بدون جرعة علاج:</label>
+        <input type="number" id="referralWithoutMed" min="0" placeholder="0">
+    </div>
+</section>
+<!-- ========================= -->
+<!-- قسم المضادات الحيوية -->
+<!-- ========================= -->
+<section class="card">
+    <div class="card-title">💊 المضادات الحيوية</div>
+
+    <div class="grid">
+        <div class="field small">
+            <label>أموكسيسيلين</label>
+            <input type="number" name="amoxicillin" placeholder="عدد الحالات">
+        </div>
+
+        <div class="field small">
+            <label>كوتريموكسازول</label>
+            <input type="number" name="cotrimoxazole" placeholder="عدد الحالات">
+        </div>
+
+        <div class="field small">
+            <label>بنسلين V</label>
+            <input type="number" name="penicillin_v" placeholder="عدد الحالات">
+        </div>
+
+        <div class="field small">
+            <label>مضاد حيوي آخر</label>
+            <input type="number" name="other_antibiotic" placeholder="عدد الحالات">
+        </div>
+    </div>
+</section>
+<!-- ========================= -->
+<!-- قسم علاج الملاريا -->
+<!-- ========================= -->
+<section class="card">
+    <div class="card-title">🦟 علاج الملاريا</div>
+
+    <div class="grid">
+        <div class="field small">
+            <label>أرتسونات – سلفادوكسين / بريميثامين</label>
+            <input type="number" name="artesunate_sulfadoxine" placeholder="عدد الحالات">
+        </div>
+
+        <div class="field small">
+            <label>أرتيمثر + لوميفانترین</label>
+            <input type="number" name="artemether_lumefantrine" placeholder="عدد الحالات">
+        </div>
+    </div>
+</section>
+<!-- ========================= -->
+<!-- قسم خطة الأرواء -->
+<!-- ========================= -->
+<section class="card">
+    <div class="card-title">📋 خطة الأرواء</div>
+
+    <div class="grid">
+        <div class="field small">
+            <label>أ</label>
+            <input type="number" name="plan_a" placeholder="عدد الحالات">
+        </div>
+
+        <div class="field small">
+            <label>ب</label>
+            <input type="number" name="plan_b" placeholder="عدد الحالات">
+        </div>
+
+        <div class="field small">
+            <label>ج</label>
+            <input type="number" name="plan_c" placeholder="عدد الحالات">
+        </div>
+    </div>
+</section>
+<!-- ========================= -->
+<!-- قسم متابعة الحالات -->
+<!-- ========================= -->
+<section class="card">
+    <div class="card-title">🔄 متابعة الحالات</div>
+
+    <div class="grid">
+
+        <!-- عدد حالات تحسنت -->
+        <div class="field small">
+            <label>✅ تحسنت</label>
+            <input type="number" name="followup_improved" min="0" placeholder="عدد الحالات">
+        </div>
+
+        <!-- عدد حالات لم تتحسن -->
+        <div class="field small">
+            <label>❌ لم تتحسن</label>
+            <input type="number" name="followup_not_improved" min="0" placeholder="عدد الحالات">
+        </div>
+
+        <!-- عدد حالات ساءت -->
+        <div class="field small">
+            <label>⚠️ ساءت</label>
+            <input type="number" name="followup_worse" min="0" placeholder="عدد الحالات">
+        </div>
+
+        <!-- عدد حالات توفيت -->
+        <div class="field small">
+            <label>🕯️ توفيت</label>
+            <input type="number" name="followup_deceased" min="0" placeholder="عدد الحالات">
+        </div>
+
+    </div>
+</section>
+<!-- ========================= -->
+<!-- قسم عدد الحالات التي تلقت العلاج -->
+<!-- ========================= -->
+<section class="card">
+    <div class="card-title">💊 عدد الحالات التي تلقت العلاج</div>
+
+    <div class="grid">
+
+        <!-- عدد حالات الالتهاب الرئوي التي أعطيت مضاد حيوي -->
+        <div class="field small">
+            <label>🫁 حالات الالتهاب الرئوي + مضاد حيوي</label>
+            <input type="number" name="pneumonia_antibiotic" min="0" placeholder="عدد الحالات">
+        </div>
+
+        <!-- عدد حالات الإسهالات التي أخذت محلول الأرواء والزنك -->
+        <div class="field small">
+            <label>💩 حالات الإسهال + محلول الأرواء والزنك</label>
+            <input type="number" name="diarrhea_ors_zinc" min="0" placeholder="عدد الحالات">
+        </div>
+
+    </div>
+</section>
+<section class="card">
+    <h2>📊 مؤشرات الحالات الهامة</h2>
+
+    <div class="classification-grid">
+
+        <div class="class-box red">
+            🫁 عدد حالات الالتهاب الرئوي
+            <span id="pneumoniaCount">0</span>
+        </div>
+
+        <div class="class-box orange">
+            💧 عدد حالات الجفاف الشديد
+            <span id="severeDehydrationCount">0</span>
+        </div>
+
+        <div class="class-box yellow">
+            🚑 عدد الإحالات
+            <span id="referralCount">0</span>
+        </div>
+
+        <div class="class-box red">
+            ⚠️ عدد الحالات الخطرة
+            <span id="severeCasesCount">0</span>
+        </div>
+
+    </div>
+</section>
+<!-- ========================= -->
+<!-- أسفل الصفحة - المعلومات الرسمية -->
+<!-- ========================= -->
+<section class="card footer-info">
+    <div class="grid">
+
+        <div class="field small">
+            <label>📅 التاريخ</label>
+            <input type="date" name="report_date">
+        </div>
+
+        <div class="field wide">
+            <label>👨‍⚕️ اسم الطبيب / العامل الصحي</label>
+            <input type="text" name="health_worker_name" placeholder="أدخل الاسم">
+        </div>
+
+        <div class="field wide">
+            <label>🏥 اسم مدير المرفق الصحي</label>
+            <input type="text" name="facility_manager" placeholder="أدخل الاسم">
+        </div>
+
+        <div class="field wide">
+            <label>📋 اسم مدير مكتب الصحة والبيئة بالمديرية</label>
+            <input type="text" name="district_health_manager" placeholder="أدخل الاسم">
+        </div>
+
+        <div class="field wide">
+            <label>📋 اسم مدير مكتب الصحة والبيئة بالمحافظة</label>
+            <input type="text" name="governorate_health_manager" placeholder="أدخل الاسم">
+        </div>
+
+    </div>
+</section>
+
+<script src="monthly-report.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

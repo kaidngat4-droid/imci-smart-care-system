@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول | IMCI Digital System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Cairo',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background: linear-gradient(135deg,#0f172a,#1e3a8a);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+}
+
+.login-container{
+    width:100%;
+    max-width:420px;
+    background:#ffffff;
+    color:#111;
+    padding:40px;
+    border-radius:16px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.3);
+    text-align:center;
+    position:relative;
+}
+
+.login-container img{
+    width:70px;
+    margin-bottom:15px;
+}
+
+.ministry-title{
+    font-size:14px;
+    color:#555;
+    margin-bottom:5px;
+    line-height:1.6;
+}
+
+.system-title{
+    font-size:18px;
+    font-weight:700;
+    color:#1e3a8a;
+    margin-bottom:25px;
+}
+
+.input-group{
+    margin-bottom:20px;
+    text-align:right;
+}
+
+.input-group label{
+    font-size:13px;
+    color:#444;
+}
+
+.input-group input{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    margin-top:5px;
+    font-size:14px;
+}
+
+.input-group input:focus{
+    outline:none;
+    border-color:#1e3a8a;
+    box-shadow:0 0 0 2px rgba(30,58,138,0.2);
+}
+
+.login-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#1e3a8a;
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.login-btn:hover{
+    background:#0f172a;
+}
+
+.footer{
+    margin-top:20px;
+    font-size:12px;
+    color:#777;
+}
+
+.error{
+    color:red;
+    font-size:13px;
+    margin-top:10px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="login-container">
+
+    <img src="assets/images/yemen-eagle.png" alt="شعار الجمهورية">
+
+    <div class="ministry-title">
+        الجمهورية اليمنية<br>
+        وزارة الصحة والبيئة<br>
+        قطاع الرعاية الصحية الأولية<br>
+        إدارة صحة الطفل<br>
+        مكتب الصحة والبيئة - محافظة إب
+    </div>
+
+    <div class="system-title">
+        النظام الرقمي للرعاية التكاملية للطفل المريض (IMCI)
+    </div>
+
+    <div class="input-group">
+        <label>اسم المستخدم</label>
+        <input type="text" id="username">
+    </div>
+
+    <div class="input-group">
+        <label>كلمة المرور</label>
+        <input type="password" id="password">
+    </div>
+
+    <button class="login-btn" onclick="login()">
+        تسجيل الدخول
+    </button>
+
+    <div class="error" id="errorMsg"></div>
+
+    <div class="footer">
+        IMCI Digital System © 2026
+    </div>
+
+</div>
+
+<script>
+
+// لا يوجد تحويل تلقائي هنا
+// صفحة الدخول يجب أن تظهر دائماً
+
+function login(){
+
+    const user = document.getElementById("username").value.trim();
+    const pass = document.getElementById("password").value.trim();
+    const errorBox = document.getElementById("errorMsg");
+
+    const users = {
+
+        "imci_rayas": {
+            password: "123456",
+            facility: "المركز الصحي الرياس"
+        },
+
+        "imci_maliky": {
+            password: "123456",
+            facility: "المركز الصحي بلاد المليكي"
+        },
+
+        "imci_gabalin": {
+            password: "123456",
+            facility: "المركز الصحي الجبلين"
+        }
+
+    };
+
+    if(users[user] && users[user].password === pass){
+
+        localStorage.setItem("imci_logged_in","true");
+        localStorage.setItem("imci_user",user);
+        localStorage.setItem("imci_facility",users[user].facility);
+
+        window.location.href="dashboard.html";
+
+    }else{
+        errorBox.textContent = "بيانات الدخول غير صحيحة";
+    }
+}
+
+</script>
+
+</body>
+</html>

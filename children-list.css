@@ -1,0 +1,58 @@
+body {
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    background: #f0fdf4;
+}
+
+.topbar {
+    background: #065f46;
+    color: white;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topbar button {
+    background: #dc2626;
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.container {
+    padding: 30px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+th, td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+    background: #047857;
+    color: white;
+}
+
+tr:hover {
+    background: #ecfdf5;
+}
+
+.no-data {
+    text-align: center;
+    margin-top: 30px;
+    font-weight: bold;
+    color: #b91c1c;
+}

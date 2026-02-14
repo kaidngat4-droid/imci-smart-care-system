@@ -1,0 +1,345 @@
+body {
+    font-family: 'Cairo', sans-serif;
+    margin: 0;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.official-header {
+    background: #065f46;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.eagle {
+    width: 70px;
+}
+
+.header-text h1,
+.header-text h2,
+.header-text h3,
+.header-text h4 {
+    margin: 4px 0;
+}
+
+.report-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: 15px;
+    background: #ecfdf5;
+    padding: 20px;
+    font-weight: bold;
+}
+
+.card {
+    background: white;
+    margin: 25px;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #065f46;
+    margin-bottom: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th, td {
+    border: 1px solid #cbd5e1;
+    padding: 10px;
+}
+
+th {
+    background: #d1fae5;
+}
+
+.visit-types {
+    display: flex;
+    gap: 40px;
+    font-size: 18px;
+}
+.classification-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.class-box {
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.class-box span {
+    background: rgba(255,255,255,0.25);
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+/* ألوان IMCI */
+.red { background: #dc2626; }
+.orange { background: #f97316; }
+.yellow { background: #eab308; color:#1f2937; }
+.green { background: #16a34a; }
+.muac-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.muac-box {
+    padding: 22px;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+    color: white;
+}
+
+.muac-box span {
+    background: rgba(255,255,255,0.3);
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-size: 20px;
+}
+
+/* ألوان MUAC حسب WHO */
+.muac-box.red { background: #b91c1c; }
+.muac-box.orange { background: #f97316; }
+.muac-box.green { background: #15803d; }
+.nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.nutrition-box {
+    padding: 20px;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+    color: white;
+}
+
+.nutrition-box span {
+    background: rgba(255,255,255,0.3);
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-size: 20px;
+}
+
+/* ألوان رسمية IMCI */
+.nutrition-box.red { background: #b91c1c; }        /* نقص وزن شديد */
+.nutrition-box.dark-red { background: #7f1d1d; }   /* فقر دم شديد */
+.nutrition-box.orange { background: #f97316; }     /* فقر دم متوسط */
+.nutrition-box.yellow { background: #eab308; }     /* مشاكل تغذية */
+.infant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.infant-box {
+    padding: 18px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    color: white;
+}
+
+.infant-box span {
+    background: rgba(255,255,255,0.3);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 18px;
+}
+
+/* ألوان التصنيفات */
+.infant-box.red { background: #b91c1c; }          /* احتمال التهاب بكتيري خطير */
+.infant-box.orange { background: #f97316; }       /* التهاب بكتيري موضعي */
+.infant-box.yellow { background: #facc15; color: #000; } /* صفار واضح */
+.infant-box.blue-dark { background: #1e40af; }    /* جفاف شديد */
+.infant-box.blue-light { background: #60a5fa; }   /* بعض الجفاف */
+.infant-box.green-light { background: #86efac; color: #000;}  /* لا يوجد جفاف */
+.infant-box.purple-dark { background: #6b21a8; }  /* إسهال مستمر شديد */
+.infant-box.purple-light { background: #c084fc; } /* دم في البراز */
+.infant-box.teal { background: #0d9488; }         /* مشكلة في التغذية */
+.infant-box.orange-dark { background: #ea580c; }  /* نقص وزن */
+.infant-box.gray { background: #6b7280; }         /* لا توجد مشكلة في التغذية */
+.other-issues label,
+.urgent-referral label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+.other-issues input,
+.urgent-referral input {
+    width: 120px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.other-issues label,
+.urgent-referral label {
+    font-weight: bold;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 5px;
+}
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #065f46;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+.field label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.field input[type="number"] {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    width: 100%;
+    box-sizing: border-box;
+}
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #065f46;
+    margin-bottom: 15px;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 200px;
+}
+
+.field label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.field input[type="number"] {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    width: 100%;
+    box-sizing: border-box;
+}
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #065f46;
+    margin-bottom: 15px;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 100px;
+}
+
+.field label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.field input[type="number"] {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+.field.small input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+}
+.field.small input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+}
+.footer-info {
+    margin-top: 30px;
+    padding: 20px;
+    border-top: 2px solid #065f46;
+}
+
+.footer-info .field input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+}
+
+.footer-info label {
+    font-weight: bold;
+}

@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>استمارة تسجيل الطفل | IMCI</title>
+    <link rel="stylesheet" href="child-form.css">
+    <style>
+        /* ===== الترويسة الرسمية ===== */
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .official-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* توسيط كل شيء */
+            justify-content: center;
+            padding: 20px 0;
+            background: linear-gradient(135deg, #e0f0ff, #ffffff); /* تأثير بصري لطيف */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .official-header .eagle {
+            width: 80px; /* نفس حجم الصورة القديم */
+            height: auto;
+            display: block;
+            margin-bottom: 15px;
+            transition: transform 0.3s, filter 0.3s;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+        }
+
+        /* تأثير عند المرور على الصورة */
+        .official-header .eagle:hover {
+            transform: scale(1.05) rotate(-2deg);
+            filter: drop-shadow(0 6px 8px rgba(0,0,0,0.4));
+        }
+
+        .official-header .header-text h1,
+        .official-header .header-text h2,
+        .official-header .header-text h3 {
+            margin: 5px 0;
+            color: #000;
+            text-align: center;
+        }
+
+        .official-header .header-text h1 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .official-header .header-text h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #0055a5;
+        }
+
+        .official-header .header-text h3 {
+            font-size: 20px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* ===== شعار البرنامج ===== */
+        .program-logo {
+            text-align: center;
+            margin: 15px 0 30px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .program-logo img {
+            width: 60px;
+            height: auto;
+            transition: transform 0.3s;
+        }
+
+        .program-logo img:hover {
+            transform: scale(1.1) rotate(3deg);
+        }
+
+        .program-logo span {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0073e6;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* بداية الصفحة */
+        main.form-wrapper {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+<!-- الترويسة الرسمية -->
+<header class="official-header">
+    <img src="assets/images/yemen-eagle.png" class="eagle" alt="الطير الجمهوري">
+    <div class="header-text">
+        <h1>الجمهورية اليمنية</h1>
+        <h2>وزارة الصحة والبيئة</h2>
+        <h3>قطاع الرعاية الصحية الأولية – إدارة صحة الطفل</h3>
+    </div>
+</header>
+
+<!-- شعار البرنامج -->
+<div class="program-logo">
+    <img src="assets/images/moh-logo.png" alt="شعار برنامج IMCI">
+    <span>برنامج IMCI الرقمي</span>
+</div>
+
+
+<main class="form-wrapper">
+    <!-- بطاقة البيانات الأساسية -->
+ <section class="card">
+    <div class="card-title">👶 بيانات الطفل الأساسية</div>
+
+    <div class="grid">
+
+        <div class="field wide">
+            <label>الاسم الرباعي</label>
+            <input type="text" name="child_name" placeholder="اسم الطفل كاملاً">
+        </div>
+
+        <div class="field small">
+            <label>العمر (شهر)</label>
+            <input type="number" name="age">
+        </div>
+
+        <div class="field small">
+            <label>الوزن (كجم)</label>
+            <input type="number" name="weight" step="0.1">
+        </div>
+
+        <div class="field small">
+            <label>الطول (سم)</label>
+            <input type="number" name="height">
+        </div>
+
+        <div class="field small">
+            <label>درجة الحرارة °C</label>
+            <input type="number" name="temperature" step="0.1">
+        </div>
+<div class="field">
+    <label>🩺 نوع الزيارة</label>
+    <select name="visit_type" required>
+        <option value="">اختر نوع الزيارة</option>
+        <option value="أولية">أولية</option>
+        <option value="متابعة">متابعة</option>
+    </select>
+</div>
+
+        <div class="field small">
+            <label>تاريخ الزيارة</label>
+            <input type="date" name="visit_date">
+        </div>
+
+    </div>
+</section>
+
+<!-- بطاقة الشكوى -->
+<section class="card">
+    <div class="card-title">🩺 الشكوى الرئيسية</div>
+
+    <div class="field wide">
+        <label>ما هي مشاكل الطفل؟</label>
+        <textarea name="problem" rows="3"></textarea>
+    </div>
+</section>
+
+    <!-- بطاقة العلامات الخطرة -->
+   <section class="card danger">
+    <div class="card-title">⚠️ علامات الخطورة العامة</div>
+
+    <div class="check-grid">
+        <label><input type="checkbox" name="danger1"> لا يستطيع الشرب أو الرضاعة</label>
+        <label><input type="checkbox" name="danger2"> فاقد الوعي</label>
+        <label><input type="checkbox" name="danger3"> يتقيأ كل شيء</label>
+        <label><input type="checkbox" name="danger4"> تشنجات حالية أو سابقة</label>
+    </div>
+
+    <div class="classification-box" id="dangerResult">
+        لم يتم التصنيف بعد
+    </div>
+</section>
+<!-- ========================= -->
+<!-- تصنيف السعال أو صعوبة التنفس -->
+<!-- ========================= -->
+<section class="card">
+    <div class="card-title">🫁 تصنيف السعال أو صعوبة التنفس</div>
+
+    <div class="grid">
+
+        <!-- وجود سعال -->
+        <div class="field wide">
+            <label>هل يعاني الطفل من سعال أو صعوبة في التنفس؟</label>
+            <div class="radio-row">
+                <label><input type="radio" name="cough" value="yes"> نعم</label>
+                <label><input type="radio" name="cough" value="no"> لا</label>
+            </div>
+        </div>
+
+        <div class="field small">
+            <label>منذ متى؟ (أيام)</label>
+            <input type="number" name="cough_days" min="0">
+        </div>
+
+        <!-- عدّ التنفس -->
+        <div class="field small">
+            <label>عدد الأنفاس / دقيقة</label>
+            <input type="number" name="resp_rate">
+        </div>
+
+        <div class="field small">
+            <label>تنفس سريع</label>
+            <select name="fast_breathing">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <!-- علامات الصدر -->
+        <div class="field wide">
+            <label>علامات الفحص</label>
+            <div class="check-grid">
+                <label><input type="checkbox" name="chest_indrawing"> انسحاب أسفل الصدر للداخل</label>
+                <label><input type="checkbox" name="wheeze"> أزيز</label>
+                <label><input type="checkbox" name="stridor"> صرير</label>
+            </div>
+        </div>
+
+        <!-- الأكسجين -->
+        <div class="field small">
+            <label>تشبع الأكسجين SpO₂ (%)</label>
+            <input type="number" name="spo2" min="0" max="100">
+        </div>
+
+        <div class="field small">
+            <label>أقل من 90%</label>
+            <select name="spo2_low">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+    </div>
+
+    <!-- نتيجة التصنيف -->
+    <div class="classification-box" id="coughResult">
+        لم يتم التصنيف بعد
+    </div>
+</section>
+<!-- ========================= -->
+<!-- تصنيف الإسهال -->
+<!-- ========================= -->
+<section class="card">
+    <div class="card-title">💩 تصنيف الإسهال</div>
+
+    <div class="grid">
+
+        <!-- وجود الإسهال -->
+        <div class="field wide">
+            <label>هل يعاني الطفل من إسهال؟</label>
+            <div class="radio-row">
+                <label><input type="radio" name="diarrhea" value="yes"> نعم</label>
+                <label><input type="radio" name="diarrhea" value="no"> لا</label>
+            </div>
+        </div>
+
+        <div class="field small">
+            <label>منذ متى؟ (أيام)</label>
+            <input type="number" name="diarrhea_days" min="0">
+        </div>
+
+        <div class="field small">
+            <label>هل يوجد دم في البراز؟</label>
+            <select name="blood_stool">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <!-- الحالة العامة -->
+        <div class="field wide">
+            <label>الحالة العامة للطفل</label>
+            <select name="general_state">
+                <option value="">اختر</option>
+                <option value="lethargic">خامل أو فاقد الوعي</option>
+                <option value="restless">قلق أو متوتر</option>
+                <option value="normal">طبيعي</option>
+            </select>
+        </div>
+
+        <!-- العلامات السريرية -->
+        <div class="field wide">
+            <label>علامات الجفاف</label>
+            <div class="check-grid">
+                <label><input type="checkbox" name="sunken_eyes"> العينان غائرتان</label>
+                <label><input type="checkbox" name="not_drinking"> غير قادر على الشرب / يشرب بضعف</label>
+                <label><input type="checkbox" name="drinks_eagerly"> يشرب بلهفة / عطشان</label>
+            </div>
+        </div>
+
+        <!-- شد الجلد -->
+        <div class="field wide">
+            <label>اختبار شد جلد البطن</label>
+            <select name="skin_pinch">
+                <option value="">اختر</option>
+                <option value="very_slow">يعود ببطء شديد (أكثر من ثانيتين)</option>
+                <option value="slow">يعود ببطء</option>
+                <option value="normal">يعود فورًا</option>
+            </select>
+        </div>
+
+    </div>
+
+    <!-- نتيجة التصنيف -->
+    <div class="classification-box" id="diarrheaResult">
+        لم يتم التصنيف بعد
+    </div>
+</section>
+<!-- ========================= -->
+<!-- تصنيف مشكلة في الحلق -->
+<!-- ========================= -->
+<section class="card">
+    <div class="card-title">👄 تصنيف مشكلة في الحلق</div>
+
+    <div class="grid">
+
+        <div class="field wide">
+            <label>هل يعاني الطفل من ألم في الحلق؟</label>
+            <div class="radio-row">
+                <label><input type="radio" name="sore_throat" value="yes"> نعم</label>
+                <label><input type="radio" name="sore_throat" value="no"> لا</label>
+            </div>
+        </div>
+
+        <div class="field small">
+            <label>هل توجد حمى؟</label>
+            <select name="throat_fever">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <div class="field wide">
+            <label>علامات الفحص السريري للحلق</label>
+            <div class="check-grid">
+                <label><input type="checkbox" name="tender_nodes"> غدد لمفاوية متضخمة ومؤلمة أمام الرقبة</label>
+                <label><input type="checkbox" name="red_throat"> الحلق محمر / محتقن</label>
+                <label><input type="checkbox" name="tonsil_exudate"> بقع صفراء أو بيضاء على اللوز/الحلق</label>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- نتيجة التصنيف -->
+    <div class="classification-box" id="throatResult">
+        لم يتم التصنيف بعد
+    </div>
+</section>
+<!-- ========================= -->
+<!-- تصنيف مشكلة في الأذن -->
+<!-- ========================= -->
+<section class="card">
+    <div class="card-title">👂 تصنيف مشكلة في الأذن</div>
+
+    <div class="grid">
+
+        <div class="field wide">
+            <label>هل يعاني الطفل من ألم في الأذن؟</label>
+            <div class="radio-row">
+                <label><input type="radio" name="ear_pain" value="yes"> نعم</label>
+                <label><input type="radio" name="ear_pain" value="no"> لا</label>
+            </div>
+        </div>
+
+        <div class="field small">
+            <label>منذ متى الألم؟ (أيام)</label>
+            <input type="number" name="ear_pain_days" min="0">
+        </div>
+
+        <div class="field wide">
+            <label>هل يوجد إفراز من الأذن؟</label>
+            <div class="radio-row">
+                <label><input type="radio" name="ear_discharge" value="yes"> نعم</label>
+                <label><input type="radio" name="ear_discharge" value="no"> لا</label>
+            </div>
+        </div>
+
+        <div class="field small">
+            <label>منذ متى الإفراز؟ (أيام)</label>
+            <input type="number" name="ear_discharge_days" min="0">
+        </div>
+
+        <div class="field wide">
+            <label>علامات الفحص</label>
+            <div class="check-grid">
+                <label><input type="checkbox" name="ear_pus"> صديد خارج من الأذن</label>
+                <label><input type="checkbox" name="mastoid_swelling"> تورم مؤلم خلف الأذن</label>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- نتيجة التصنيف -->
+    <div class="classification-box" id="earResult">
+        لم يتم التصنيف بعد
+    </div>
+</section>
+<!-- ========================= -->
+<!-- تصنيف الحمى -->
+<!-- ========================= -->
+<section class="card">
+    <div class="card-title">🌡️ تصنيف الحمى</div>
+
+    <div class="grid">
+
+        <!-- هل يعاني الطفل من الحمى -->
+        <div class="field wide">
+            <label>هل يعاني الطفل من الحمى؟ (بالشكوى أو اللمس أو درجة حرارة ≥ 37.5°م)</label>
+            <div class="radio-row">
+                <label><input type="radio" name="fever" value="yes"> نعم</label>
+                <label><input type="radio" name="fever" value="no"> لا</label>
+            </div>
+        </div>
+
+        <!-- مدة الحمى -->
+        <div class="field small">
+            <label>هل كانت الحمى موجودة لأكثر من 7 أيام؟</label>
+            <select name="fever_7days">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <div class="field small">
+            <label>هل كانت الحمى موجودة يوميًا؟</label>
+            <select name="fever_daily">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <!-- الحصبة -->
+        <div class="field wide">
+            <label>هل كان الطفل مصابًا بالحصبة خلال الثلاثة الأشهر الأخيرة؟</label>
+            <select name="measles_recent">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <!-- تصلب الرقبة -->
+        <div class="field wide">
+            <label>انظر وتحسس لتصلب العنق</label>
+            <select name="neck_stiffness">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <!-- سيلان الأنف -->
+        <div class="field wide">
+            <label>انظر لوجود سيلان من الأنف</label>
+            <select name="runny_nose">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <!-- سبب بكتيري -->
+        <div class="field wide">
+            <label>انظر لوجود سبب بكتيري للحمى</label>
+            <select name="bacterial_signs">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <!-- علامات الحصبة -->
+        <div class="field wide">
+            <label>انظر علامات الحصبة: طفح عام</label>
+            <select name="measles_rash">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <!-- فحص الملاريا -->
+        <div class="field wide">
+            <label>فحص الملاريا</label>
+            <select name="malaria_test">
+                <option value="">اختر</option>
+                <option value="positive">إيجابي</option>
+                <option value="negative">سلبي</option>
+            </select>
+        </div>
+
+    </div>
+
+    <!-- نتيجة التصنيف والعلاج -->
+    <div class="classification-box" id="feverResult">
+        لم يتم التصنيف بعد
+    </div>
+</section>
+<!-- ========================= -->
+<!-- تصنيف الحصبة -->
+<!-- ========================= -->
+<section class="card">
+    <div class="card-title">🩺 تصنيف الحصبة</div>
+
+    <div class="grid">
+
+        <div class="field wide">
+            <label>هل كان الطفل يعاني من الحصبة الآن أو خلال الثلاثة الأشهر الأخيرة؟</label>
+            <div class="radio-row">
+                <label><input type="radio" name="measles_now" value="yes"> نعم</label>
+                <label><input type="radio" name="measles_now" value="no"> لا</label>
+            </div>
+        </div>
+
+        <div class="field wide">
+            <label>انظر: هل توجد تفرحات في الفم؟ وهل هي عميقة ومنتشرة؟</label>
+            <select name="mouth_ulcers">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <div class="field wide">
+            <label>انظر: هل يوجد إفراز صديدي من العيون؟</label>
+            <select name="eye_discharge">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <div class="field wide">
+            <label>انظر: هل يوجد تعتيم في القرنية؟</label>
+            <select name="cornea_clouding">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+    </div>
+
+    <!-- نتيجة التصنيف والعلاج -->
+    <div class="classification-box" id="measlesResult">
+        لم يتم التصنيف بعد
+    </div>
+</section>
+
+<!-- ========================= -->
+<!-- تصنيف سوء التغذية وفقر الدم -->
+<!-- ========================= -->
+<section class="card">
+    <div class="card-title">🍎 تصنيف سوء التغذية وفقر الدم</div>
+
+    <div class="grid">
+
+        <!-- 1. هزال شديد وواضح -->
+        <div class="field wide">
+            <label>هل يوجد هزال شديد وواضح؟</label>
+            <select name="severe_wasting">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <!-- 2. وذمة في كلا القدمين -->
+        <div class="field wide">
+            <label>هل يوجد تورم لكلا القدمين (وذمة)؟</label>
+            <select name="bilateral_edema">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <!-- 3. الوزن بالنسبة للطول -->
+        <div class="field small">
+            <label>الوزن بالنسبة للطول (SCORE)</label>
+            <input type="number" step="0.1" name="weight_for_height">
+        </div>
+
+        <!-- 4. الطول بالنسبة للعمر -->
+        <div class="field small">
+            <label>الطول بالنسبة للعمر (SCORE)</label>
+            <input type="number" step="0.1" name="height_for_age">
+        </div>
+
+        <!-- 5. الوزن بالنسبة للعمر -->
+        <div class="field small">
+            <label>الوزن بالنسبة للعمر (SCORE)</label>
+            <input type="number" step="0.1" name="weight_for_age">
+        </div>
+
+        <!-- 6. محيط منتصف الذراع للأطفال ≥ 6 أشهر -->
+        <div class="field small">
+            <label>محيط منتصف الذراع (MUAC)</label>
+            <input type="number" step="0.1" name="muac">
+        </div>
+
+        <!-- 7. شحوب الكف -->
+        <div class="field wide">
+            <label>هل يوجد شحوب الكف؟</label>
+            <select name="pallor_hand">
+                <option value="">اختر</option>
+                <option value="none">لا يوجد</option>
+                <option value="mild">خفيف</option>
+                <option value="severe">شديد</option>
+            </select>
+        </div>
+
+        <!-- 8. التحقق من الهيموغلوبين -->
+        <div class="field small">
+            <label>نسبة الهيموغلوبين (Hb g/dL)</label>
+            <input type="number" step="0.1" name="hemoglobin">
+        </div>
+
+        <!-- 9. مهارات تطور الطفل -->
+        <div class="field wide">
+            <label>هل الطفل يحقق جميع علامات مراحل تطور النمو؟</label>
+            <select name="developmental_milestones">
+                <option value="">اختر</option>
+                <option value="all">نعم، جميع المعالم</option>
+                <option value="partial">نعم جزئيًا</option>
+                <option value="none">لا</option>
+            </select>
+        </div>
+
+        <!-- 10. التغذية (رضاعة أو أطعمة أخرى) -->
+        <div class="field wide">
+            <label>هل يتلقى الطفل تغذية مناسبة (رضاعة/أطعمة مكملة)؟</label>
+            <select name="nutrition_status">
+                <option value="">اختر</option>
+                <option value="adequate">نعم</option>
+                <option value="inadequate">لا</option>
+            </select>
+        </div>
+
+        <!-- 11. ملاحظات أخرى / مشاكل إضافية -->
+        <div class="field wide">
+            <label>مشاكل أو ملاحظات أخرى (إن وجدت)</label>
+            <textarea name="other_notes" placeholder="أدخل أي ملاحظات هنا"></textarea>
+        </div>
+
+    </div>
+
+    <!-- نتيجة التصنيف والعلاج -->
+    <div class="classification-box" id="nutritionResult">
+        لم يتم التصنيف بعد
+    </div>
+</section>
+<!-- ========================= -->
+<!-- التطعيمات وفيتامين أ -->
+<!-- ========================= -->
+<section class="card">
+    <div class="card-title">💉 التطعيمات وفيتامين A التكميلي</div>
+
+    <div class="grid">
+
+        <!-- الولادة -->
+        <div class="field wide">
+            <label>🍼 عند الولادة</label>
+            <div class="checkbox-row">
+                <label><input type="checkbox" name="bcg" value="yes"> BCG (السل)</label>
+                <label><input type="checkbox" name="vitA_birth" value="yes"> فيتامين A</label>
+            </div>
+        </div>
+
+        <!-- الأسبوع السادس -->
+        <div class="field wide">
+            <label>📅 الأسبوع السادس</label>
+            <div class="checkbox-row">
+                <label><input type="checkbox" name="pent1" value="yes"> الخماسي (1)</label>
+                <label><input type="checkbox" name="opv1" value="yes"> الشلل الفموي (1)</label>
+                <label><input type="checkbox" name="pcv1" value="yes"> المكورات الرئوية (1)</label>
+            </div>
+        </div>
+
+        <!-- الأسبوع العاشر -->
+        <div class="field wide">
+            <label>📅 الأسبوع العاشر</label>
+            <div class="checkbox-row">
+                <label><input type="checkbox" name="pent2" value="yes"> الخماسي (2)</label>
+                <label><input type="checkbox" name="opv2" value="yes"> الشلل الفموي (2)</label>
+                <label><input type="checkbox" name="pcv2" value="yes"> المكورات الرئوية (2)</label>
+            </div>
+        </div>
+
+        <!-- الأسبوع الرابع عشر -->
+        <div class="field wide">
+            <label>📅 الأسبوع الرابع عشر</label>
+            <div class="checkbox-row">
+                <label><input type="checkbox" name="pent3" value="yes"> الخماسي (3)</label>
+                <label><input type="checkbox" name="opv3" value="yes"> الشلل الفموي (3)</label>
+                <label><input type="checkbox" name="pcv3" value="yes"> المكورات الرئوية (3)</label>
+            </div>
+        </div>
+
+        <!-- الشهر التاسع -->
+        <div class="field wide">
+            <label>📅 الشهر التاسع</label>
+            <div class="checkbox-row">
+                <label><input type="checkbox" name="measles1" value="yes"> الحصبة / الحصبة الألمانية (1)</label>
+                <label><input type="checkbox" name="vitA_9m" value="yes"> فيتامين A (100000 وحدة دولية)</label>
+            </div>
+        </div>
+
+        <!-- الشهر الثامن عشر -->
+        <div class="field wide">
+            <label>📅 الشهر الثامن عشر</label>
+            <div class="checkbox-row">
+                <label><input type="checkbox" name="measles2" value="yes"> الحصبة / الحصبة الألمانية (2)</label>
+                <label><input type="checkbox" name="vitA_18m" value="yes"> فيتامين A (200000 وحدة دولية)</label>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- نتيجة التطعيمات اليوم -->
+    <div class="classification-box" id="vaccinationResult">
+        لم يتم تحديد التطعيمات المطلوبة اليوم
+    </div>
+</section>
+<!-- ========================= -->
+<!-- تقييم تغذية الطفل -->
+<!-- ========================= -->
+<section class="card">
+    <div class="card-title">🍽️ تقييم تغذية الطفل (< 2 سنوات)</div>
+
+    <div class="grid">
+
+        <!-- 1. الرضاعة الطبيعية -->
+        <div class="field wide">
+            <label>هل ترضع الأم الطفل؟</label>
+            <div class="radio-row">
+                <label><input type="radio" name="breastfeeding" value="yes"> نعم</label>
+                <label><input type="radio" name="breastfeeding" value="no"> لا</label>
+            </div>
+        </div>
+
+        <!-- 2. عدد الرضعات خلال 24 ساعة -->
+        <div class="field small">
+            <label>كم مرة ترضع الطفل خلال 24 ساعة؟</label>
+            <input type="number" name="breastfeed_count" min="0">
+        </div>
+
+        <!-- 3. الرضاعة الليلية -->
+        <div class="field small">
+            <label>هل ترضع خلال الليل؟</label>
+            <select name="breastfeed_night">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <!-- 4. استهلاك السوائل أو الأغذية الأخرى -->
+        <div class="field wide">
+            <label>هل يتناول الطفل أي طعام أو سوائل أخرى؟</label>
+            <select name="other_foods">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <!-- 5. نوع الطعام أو السوائل الأخرى -->
+        <div class="field wide">
+            <label>إذا نعم، ما هي هذه الأطعمة أو السوائل؟</label>
+            <input type="text" name="other_foods_list" placeholder="أدخل الأطعمة أو السوائل">
+        </div>
+
+        <!-- 6. من الذي يطعمه وكيف؟ -->
+        <div class="field wide">
+            <label>من يطعمه الطفل وكيف؟</label>
+            <input type="text" name="feeding_method" placeholder="مثلاً: الأم بالفم / ملعقة">
+        </div>
+
+        <!-- 7. تغير التغذية أثناء المرض -->
+        <div class="field wide">
+            <label>هل تغيرت تغذية الطفل أثناء المرض؟</label>
+            <select name="nutrition_during_illness">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <!-- 8. حجم الطعام -->
+        <div class="field small">
+            <label>حجم الطعام المقدم للطفل</label>
+            <input type="text" name="food_amount" placeholder="مثلاً: صغير / متوسط / كبير">
+        </div>
+
+        <!-- 9. عدد مرات تناول الطعام يومياً -->
+        <div class="field small">
+            <label>عدد مرات تناول الطعام في اليوم</label>
+            <input type="number" name="food_times" min="0">
+        </div>
+
+        <!-- 10. تغير التغذية خلال المرض -->
+        <div class="field wide">
+            <label>هل تغيرت كمية أو نوعية التغذية أثناء المرض؟</label>
+            <select name="nutrition_change">
+                <option value="">اختر</option>
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+            </select>
+        </div>
+
+        <!-- 11. أي مشاكل تغذوية أخرى -->
+        <div class="field wide">
+            <label>مشاكل تغذوية أخرى إن وجدت</label>
+            <textarea name="other_nutrition_issues" placeholder="أدخل أي ملاحظات"></textarea>
+        </div>
+
+    </div>
+
+    <!-- نتيجة تقييم التغذية -->
+    <div class="classification-box" id="nutritionStatusResult">
+        لم يتم تقييم التغذية بعد
+    </div>
+</section>
+<!-- ========================= -->
+<!-- تقييم اللعب والتواصل التفصيلي -->
+<!-- ========================= -->
+<section class="card">
+    <div class="card-title">🧸 قيم اللعب والتواصل لدى الطفل</div>
+
+    <div class="grid">
+
+        <!-- 1. هل يلعب مع الطفل -->
+        <div class="field wide">
+            <label>🎲 هل تلاعبين طفلك؟</label>
+            <div class="radio-row">
+                <label><input type="radio" name="plays_with_child" value="yes"> نعم</label>
+                <label><input type="radio" name="plays_with_child" value="no"> لا</label>
+            </div>
+        </div>
+
+        <!-- إذا نعم، كيف وما هي الألعاب -->
+        <div class="field wide">
+            <label>🧩 إذا نعم، كيف وما هي الألعاب أو الأشياء التي تلعب بها مع الطفل؟</label>
+            <input type="text" name="play_details" placeholder="مثلاً: مكعبات، دمى، الغناء، القراءة">
+        </div>
+
+        <!-- إذا لا، لماذا -->
+        <div class="field wide">
+            <label>❌ إذا كانت الإجابة لا، لماذا؟</label>
+            <input type="text" name="play_no_reason" placeholder="أدخل السبب">
+        </div>
+
+        <!-- 2. التواصل مع الطفل -->
+        <div class="field wide">
+            <label>💬 هل تتواصلين مع طفلك؟</label>
+            <div class="radio-row">
+                <label><input type="radio" name="communicates" value="yes"> نعم</label>
+                <label><input type="radio" name="communicates" value="no"> لا</label>
+            </div>
+        </div>
+
+        <!-- إذا نعم، كيف -->
+        <div class="field wide">
+            <label>🗣️ إذا نعم، كيف يتم التواصل؟</label>
+            <input type="text" name="communicates_how" placeholder="مثلاً: كلام، إشارات، غناء، تقليد">
+        </div>
+
+        <!-- إذا لا، لماذا -->
+        <div class="field wide">
+            <label>❌ إذا لا، لماذا؟</label>
+            <input type="text" name="communicates_no_reason" placeholder="أدخل السبب">
+        </div>
+
+    </div>
+
+    <!-- نتيجة تقييم اللعب -->
+    <div class="classification-box" id="playCommunicationResult">
+        لم يتم تقييم اللعب والتواصل بعد
+    </div>
+</section>
+
+<!-- ========================= -->
+<!-- علاج الطفل - تسجيل الأدوية المصروفة -->
+<!-- ========================= -->
+<section class="card">
+    <h2>💊 عالج الطفل</h2>
+    <p>سجل الأدوية والإجراءات التي تم صرفها من قبل العامل الصحي:</p>
+    <textarea name="child_treatment_given" rows="6" placeholder="مثال: أموكسيسيلين 250mg مرتين يوميًا لمدة 5 أيام، محلول ORS، زنك 20mg"></textarea>
+</section>
+
+    <!-- أزرار -->
+   <div class="actions">
+    <button class="save" type="button">💾 حفظ البيانات</button>
+    <button class="back" type="button" onclick="goTo('dashboard.html')">↩️ عودة</button>
+</div>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
