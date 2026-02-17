@@ -124,7 +124,7 @@ function classifyDangerSigns() {
         resultBox.innerHTML = `
             🔴 مرض شديد جداً<br>
             🚑 إحالة فورية للمستشفى<br>
-            💉 إعطاء الجرعة الأولى الأمبيسلين والجنتاميسين عضل ومحلول سكرومضادللتشنجات قبل الإحالة
+            💉 إعطاء الجرعة الأولى قبل الإحالة
         `;
 
         resultBox.style.background = "#fecaca";
@@ -230,7 +230,7 @@ function classifyThroat() {
 
     // 🔴 التهاب حلق سبحي
     if (fever === "yes" && tenderNodes && tonsilExudate) {
-        resultBox.innerHTML = "🔴  penzathin pencilin التهاب الحلق السبحي – أعطِ أموكسيسيلين حسب الوزن لمدة 10 أيام او";
+        resultBox.innerHTML = "🔴 التهاب الحلق السبحي – أعطِ أموكسيسيلين حسب الوزن لمدة 5 أيام";
         resultBox.style.background = "#fecaca";
         return;
     }
@@ -855,3 +855,385 @@ function saveChildData() {
     document.querySelectorAll("input, textarea, select").forEach(el => el.value = "");
     document.querySelectorAll("input[type='checkbox'], input[type='radio']").forEach(el => el.checked = false);
 }
+function calculateZScores() {
+
+    const age = parseFloat(etValue("age"));       // بالأشهر
+    const weight = parseFloat(getValue("weight")); // كجم
+    const height = parseFloat(getValue("height")); // سم
+
+    if (!age || !weight || !height) return null;
+
+    // متوسطات تقريبية WHO (تبسيط)
+    const expectedWeight = 0.25 * age + 3;       // تقدير تقريبي
+    const expectedHeight = 0.5 * age + 50;       // تقدير تقريبي
+    const expectedWH = (height - 100) * 0.9;     // معادلة تقريبية
+
+    const waz = (weight - expectedWeight) / 1.2;
+    const haz = (height - expectedHeight) / 2;
+    const whz = (weight - expectedWH) / 1.1;
+
+    return { waz, haz, whz };
+}
+function classifyNutrition() {
+
+    const muac = parseFloat(getValue("muac"));
+    const edema = getValue("bilateral_edema");
+    const pallor = getValue("pallor_hand");
+    const hb = parseFloat(getValue("hemoglobin"));
+
+    const scores = calculateZScores();
+    if (!scores) return;
+
+    const { waz, haz, whz } = scores;
+
+    let result = "";
+    let color = "#bbf7d0";
+
+    /* عرض Z-scores */
+    document.getElementById("autoZScores").innerHTML =
+        `WAZ: ${waz.toFixed(2)} | HAZ: ${haz.toFixed(2)} | WHZ: ${whz.toFixed(2)}`;
+
+    /* ================= SAM ================= */
+    if (
+        edema === "yes" ||
+        muac < 11.5 ||
+        whz < -3
+    ) {
+        result += "🔴 سوء تغذية حاد شديد (SAM)<br>";
+        result += "• إحالة عاجلة<br>";
+        result += "• مضاد حيوي وقائي<br>";
+        color = "#fecaca";
+    }
+
+    /* ================= MAM ================= */
+    else if (
+        (muac >= 11.5 && muac < 12.5) ||
+        (whz >= -3 && whz < -2)
+    ) {
+        result += "🟠 سوء تغذية حاد متوسط (MAM)<br>";
+        result += "• دعم غذائي + متابعة أسبوعين<br>";
+        color = "#fde68a";
+    }
+
+    /* ================= Stunting ================= */
+    if (haz < -2) {
+        result += "<br>🟡 تقزم (تأخر نمو مزمن)";
+    }
+
+    /* ================= Underweight ================= */
+    if (waz < -2) {
+        result += "<br>🟡 نقص وزن بالنسبة للعمر";
+    }
+
+    /* ================= Anemia ================= */
+    if (pallor === "severe" || hb < 7) {
+        result += "<br>🔴 فقر دم شديد – إحالة عاجلة";
+        color = "#fecaca";
+    }
+    else if (pallor === "mild" || (hb >= 7 && hb < 11)) {
+        result += "<br>🟡 فقر دم – حديد 3 أشهر";
+    }
+
+    if (!result) {
+        result = "🟢 الحالة الغذائية طبيعية";
+    }
+
+    setResult("nutritionResult", result, color);
+}
+document.addEventListener("input", function(e){
+
+    if (
+        e.target.name === "age" ||
+        e.target.name === "weight" ||
+        e.target.name === "height" ||
+        e.target.name === "muac" ||
+        e.target.name === "hemoglobin"
+    ) {
+        classifyNutrition();
+    }
+
+});
+/************************************************
+ IMCI – Official Nutrition & Z-Score Module
+************************************************/
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    function getNumber(name) {
+        const el = document.querySelector(`[name="${name}"]`);
+        if (!el) return NaN;
+        return parseFloat(el.value);
+    }
+
+    function getSelectValue(name) {
+        const el = document.querySelector(`[name="${name}"]`);
+        return el ? el.value : "";
+    }
+
+    function calculateNutrition() {
+
+        const age = getNumber("age");
+        const weight = getNumber("weight");
+        const height = getNumber("height");
+        const muac = getNumber("muac");
+        const edema = getSelectValue("bilateral_edema");
+
+        if (isNaN(age) || isNaN(weight) || isNaN(height)) return;
+
+        /* ===============================
+           حساب تقريبي (لحين ربط WHO LMS)
+        =============================== */
+
+        const expectedWeightForAge = (0.25 * age) + 3;
+        const expectedHeightForAge = (0.5 * age) + 50;
+        const expectedWeightForHeight = (height - 100) * 0.9;
+
+        const waz = (weight - expectedWeightForAge) / 1.2;
+        const haz = (height - expectedHeightForAge) / 2;
+        const whz = (weight - expectedWeightForHeight) / 1.1;
+
+        /* ===== عرض القيم ===== */
+
+        document.getElementById("whzOutput").value = whz.toFixed(2);
+        document.getElementById("wazOutput").value = waz.toFixed(2);
+        document.getElementById("hazOutput").value = haz.toFixed(2);
+
+        /* ===============================
+           تصنيف IMCI الرسمي
+        =============================== */
+
+        let classification = "";
+        let color = "#bbf7d0";
+
+        // 🔴 SAM
+        if (edema === "yes" || muac < 11.5 || whz < -3) {
+            classification = "🔴 سوء تغذية حاد شديد (SAM) – إحالة عاجلة";
+            color = "#fecaca";
+        }
+
+        // 🟠 MAM
+        else if ((muac >= 11.5 && muac < 12.5) || (whz >= -3 && whz < -2)) {
+            classification = "🟠 سوء تغذية حاد متوسط (MAM) – متابعة أسبوعية";
+            color = "#fde68a";
+        }
+
+        // 🟡 تقزم
+        else if (haz < -2) {
+            classification = "🟡 تقزم (HAZ أقل من -2)";
+            color = "#fde68a";
+        }
+
+        // 🟡 نقص وزن
+        else if (waz < -2) {
+            classification = "🟡 نقص وزن بالنسبة للعمر";
+            color = "#fde68a";
+        }
+
+        // 🟢 طبيعي
+        else {
+            classification = "🟢 النمو طبيعي";
+            color = "#bbf7d0";
+        }
+
+        /* ===== عرض النتيجة ===== */
+
+        const summary = document.getElementById("zscoreSummary");
+        const resultBox = document.getElementById("nutritionResult");
+
+        if (summary) {
+            summary.value = classification;
+            summary.style.background = color;
+        }
+
+        if (resultBox) {
+            resultBox.innerHTML = classification;
+            resultBox.style.background = color;
+        }
+    }
+
+    /* ===============================
+       تشغيل تلقائي عند الإدخال
+    =============================== */
+
+    document.addEventListener("input", function (e) {
+
+        if (
+            e.target.name === "age" ||
+            e.target.name === "weight" ||
+            e.target.name === "height" ||
+            e.target.name === "muac" ||
+            e.target.name === "bilateral_edema"
+        ) {
+            calculateNutrition();
+        }
+
+    });
+
+});
+
+
+/************************************
+ * ====== LMS Tables WHO (مختصر) ======
+ ************************************/
+const LMS = {
+    boys: {
+        weight_for_age: {
+            0: {L:1, M:3.3, S:0.12},
+            1: {L:1, M:4.5, S:0.11},
+            2: {L:1, M:5.6, S:0.10}
+            // استكمال لجميع الأعمار
+        },
+        height_for_age: {
+            0: {L:1, M:49.9, S:0.04},
+            1: {L:1, M:54.7, S:0.03},
+            2: {L:1, M:58.4, S:0.03}
+        },
+        weight_for_height: {
+            45: {L:1, M:2.5, S:0.1},
+            50: {L:1, M:3.3, S:0.09}
+        }
+    },
+    girls: {
+        weight_for_age: {
+            0: {L:1, M:3.2, S:0.11},
+            1: {L:1, M:4.2, S:0.10},
+            2: {L:1, M:5.1, S:0.09}
+        },
+        height_for_age: {
+            0: {L:1, M:49.1, S:0.04},
+            1: {L:1, M:53.7, S:0.03},
+            2: {L:1, M:57.1, S:0.03}
+        },
+        weight_for_height: {
+            45: {L:1, M:2.4, S:0.09},
+            50: {L:1, M:3.2, S:0.08}
+        }
+    }
+};
+
+/************************************
+ * ====== دوال Z-Score العلمية ======
+ ************************************/
+function calculateZScore(value, L, M, S) {
+    if (L === 0) return Math.log(value / M) / S;
+    return ((Math.pow(value / M, L)) - 1) / (L * S);
+}
+
+function getLMS(sex, type, ageOrHeight) {
+    let table = LMS[sex][type];
+    let key = Math.round(ageOrHeight);
+    if (!table[key]) return {L:1, M:1, S:0.1};
+    return table[key];
+}
+
+function computeNutritionScores() {
+    const sexInput = document.querySelector('[name="gender"]');
+    const weightInput = document.querySelector('[name="weight"]');
+    const heightInput = document.querySelector('[name="height"]');
+    const ageInput = document.querySelector('[name="age"]');
+
+    const sex = sexInput.value.toLowerCase();
+    const weight = parseFloat(weightInput.value);
+    const height = parseFloat(heightInput.value);
+    const age = parseInt(ageInput.value);
+
+    if (!sex || !weight || !height || !age) return;
+
+    const whzLMS = getLMS(sex, 'weight_for_height', height);
+    const wazLMS = getLMS(sex, 'weight_for_age', age);
+    const hazLMS = getLMS(sex, 'height_for_age', age);
+
+    const whz = calculateZScore(weight, whzLMS.L, whzLMS.M, whzLMS.S);
+    const waz = calculateZScore(weight, wazLMS.L, wazLMS.M, wazLMS.S);
+    const haz = calculateZScore(height, hazLMS.L, hazLMS.M, hazLMS.S);
+
+    document.getElementById('whzOutput').value = whz.toFixed(2);
+    document.getElementById('wazOutput').value = waz.toFixed(2);
+    document.getElementById('hazOutput').value = haz.toFixed(2);
+
+    // التصنيف النهائي
+    let summary = '';
+    if (whz < -3 || waz < -3 || haz < -3) summary = '⚠️ سوء تغذية شديد';
+    else if ((whz >= -3 && whz < -2) || (waz >= -3 && waz < -2) || (haz >= -3 && haz < -2)) summary = '⚠️ سوء تغذية معتدل';
+    else summary = '✅ طبيعي';
+
+    const zscoreField = document.getElementById('zscoreSummary');
+    zscoreField.value = summary;
+    if (summary.includes('شديد')) zscoreField.style.backgroundColor = 'red';
+    else if (summary.includes('معتدل')) zscoreField.style.backgroundColor = 'yellow';
+    else zscoreField.style.backgroundColor = 'lightgreen';
+
+    document.getElementById('nutritionResult').innerText = summary;
+}
+
+/************************************
+ * ====== تصنيف علامات الخطر ======
+ ************************************/
+function classifyDangerSigns() {
+    const cannotDrink = document.querySelector('[name="danger1"]').checked;
+    const unconscious = document.querySelector('[name="danger2"]').checked;
+    const vomiting = document.querySelector('[name="danger3"]').checked;
+    const convulsions = document.querySelector('[name="danger4"]').checked;
+
+    const dangerBox = document.getElementById('dangerResult');
+    if (cannotDrink || unconscious || vomiting || convulsions) {
+        dangerBox.innerText = '⚠️ مرض خطيراومرض شديدجدًا: يتطلب إحالة عاجلة';
+        dangerBox.style.backgroundColor = 'red';
+    } else {
+        dangerBox.innerText = '✅ لا توجد علامات خطورة';
+        dangerBox.style.backgroundColor = 'lightgreen';
+    }
+}
+
+/************************************
+ * ====== الحفظ والترحيل التلقائي ======
+ ************************************/
+function saveChildData() {
+    const childData = {
+        id: Date.now(),
+        name: document.querySelector('[name="child_name"]').value,
+        sex: document.querySelector('[name="gender"]').value,
+        age: parseInt(document.querySelector('[name="age"]').value),
+        weight: parseFloat(document.querySelector('[name="weight"]').value),
+        height: parseFloat(document.querySelector('[name="height"]').value),
+        temperature: parseFloat(document.querySelector('[name="temperature"]').value),
+        visit_type: document.querySelector('[name="visit_type"]').value,
+        visit_date: document.querySelector('[name="visit_date"]').value,
+        problem: document.querySelector('[name="problem"]').value,
+
+        dangerSigns: {
+            cannotDrink: document.querySelector('[name="danger1"]').checked,
+            unconscious: document.querySelector('[name="danger2"]').checked,
+            vomiting: document.querySelector('[name="danger3"]').checked,
+            convulsions: document.querySelector('[name="danger4"]').checked
+        },
+
+        nutrition: {
+            MUAC: parseFloat(document.querySelector('[name="muac"]').value),
+            WHZ: parseFloat(document.getElementById('whzOutput').value),
+            WAZ: parseFloat(document.getElementById('wazOutput').value),
+            HAZ: parseFloat(document.getElementById('hazOutput').value),
+            result: document.getElementById('zscoreSummary').value
+        },
+
+        treatment: document.querySelector('[name="child_treatment_given"]').value
+    };
+
+    // حفظ في localStorage
+    let children = JSON.parse(localStorage.getItem('children')) || [];
+    children.push(childData);
+    localStorage.setItem('children', JSON.stringify(children));
+
+    alert('تم حفظ بيانات الطفل بنجاح ✅');
+}
+
+/************************************
+ * ====== ربط الحساسات ======
+ ************************************/
+document.querySelector('.save').addEventListener('click', saveChildData);
+['weight','height','age','gender'].forEach(name => {
+    document.querySelector(`[name="${name}"]`).addEventListener('input', computeNutritionScores);
+});
+['danger1','danger2','danger3','danger4'].forEach(name => {
+    document.querySelector(`[name="${name}"]`).addEventListener('change', classifyDangerSigns);
+});
