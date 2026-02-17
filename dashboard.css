@@ -1,67 +1,126 @@
 body {
     margin: 0;
     font-family: 'Cairo', sans-serif;
-    background: #f0fdf4;
+    background: #f3f4f6;
+    color: #111;
 }
 
-.topbar {
+/* ===== رأس الصفحة ===== */
+header.topbar {
     background: #065f46;
-    color: white;
-    padding: 15px 25px;
+    color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 15px 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
-
-.topbar button {
-    background: #dc2626;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
+header.topbar h2 { margin:0; font-size:20px; }
+header.topbar div span { font-weight:bold; margin-right:15px; }
+header.topbar button {
+    background: #ef4444; border:none; color:#fff;
+    padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:bold;
 }
+header.topbar button:hover { background: #b91c1c; }
 
-.layout {
-    display: flex;
-}
-
+/* ===== الهيكل العام ===== */
+.layout { display:flex; min-height: calc(100vh - 60px); }
 .sidebar {
-    width: 230px;
-    background: #064e3b;
+    width: 220px; background: #047857; display:flex; flex-direction: column;
     padding: 20px;
 }
-
 .sidebar button {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 10px;
-    background: #047857;
-    border: none;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
+    background: #065f46; color:#fff; border:none; padding:12px; margin-bottom:15px;
+    border-radius:8px; font-weight:bold; cursor:pointer; text-align:right; font-size:14px;
+    transition:0.3s;
+}
+.sidebar button:hover { background: #10b981; }
+
+/* ===== محتوى الصفحة ===== */
+.dashboard-container { flex:1; padding:30px; }
+
+/* صندوق الترحيب */
+.welcome-box {
+    background: #ecfdf5; padding:25px; border-radius:14px;
+    margin-bottom:25px; box-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+.welcome-box h2 { font-size:22px; color:#065f46; font-weight:bold; margin-bottom:10px; }
+.welcome-box p strong { font-weight:bold; color:#065f46; }
+
+/* ===== التبويبات ===== */
+.subtabcontent { display:none; margin-bottom:30px; background:#fff; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.05); }
+
+/* ===== جدول المخزون ===== */
+.subtabcontent table {
+    width:100%;
+    border-collapse: collapse;
+    margin-top:15px;
+}
+.subtabcontent th, .subtabcontent td {
+    border:1px solid #ccc;
+    padding:8px;
+    text-align:center;
+}
+.subtabcontent th {
+    background:#10b981;
+    color:white;
+    font-weight:bold;
+}
+.subtabcontent input[type="number"] {
+    width:70px; padding:4px; border-radius:4px; border:1px solid #10b981; text-align:center;
 }
 
-.sidebar button:hover {
-    background: #059669;
-}
-
-.main {
-    flex: 1;
-    padding: 30px;
-}
-
-.cards {
+/* ===== الإحصاءات ===== */
+.stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-    gap: 20px;
-    margin-top: 30px;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
+    margin-top:20px;
+}
+.stat-card {
+    background:#fff; padding:25px 15px; border-radius:14px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.05);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    transition: transform 0.2s; position: relative;
+}
+.stat-card:hover { transform: translateY(-5px); }
+.stat-card h3 { font-size:28px; color:#047857; margin:10px 0 5px 0; }
+.stat-card p { font-size:14px; color:#374151; text-align:center; }
+.stat-card i { font-size:32px; color:#10b981; margin-bottom:10px; }
+
+/* ===== ألوان خاصة بالرصيد ===== */
+.stat-card.pneumonia { background: #fef3f2; color: #b91c1c; }
+.stat-card.diarrhea { background: #fffbeb; color: #b45309; }
+.stat-card.referral { background: #ecfdf5; color: #065f46; }
+
+/* ==================== جدول حركة المخزون الدوائي ==================== */
+.drug-stock-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
 }
 
-.card {
-    background: white;
-    padding: 30px;
-    border-radius: 14px;
+.drug-stock-table th,
+.drug-stock-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
     text-align: center;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.drug-stock-table th {
+    background: var(--accent);
+    color: #fff;
+    font-weight: bold;
+}
+
+.drug-stock-table input[type="number"] {
+    width: 70px;
+    padding: 5px;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    text-align: center;
 }
