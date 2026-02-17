@@ -276,3 +276,14 @@ button {
     resize: vertical; /* يسمح للمستخدم تكبير أو تصغير الصندوق عموديًا */
     min-height: 120px;
 }
+.result-box{
+    padding:12px;
+    margin-top:10px;
+    border-radius:8px;
+    font-weight:bold;
+}
+input[readonly]{
+    background:#f3f4f6;
+    font-weight:bold;
+    text-align:center;
+}
