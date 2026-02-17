@@ -123,10 +123,19 @@
 
     <div class="grid">
 
-        <div class="field wide">
-            <label>الاسم الرباعي</label>
-            <input type="text" name="child_name" placeholder="اسم الطفل كاملاً">
-        </div>
+     <div class="field wide">
+    <label>الاسم الرباعي</label>
+    <input type="text" name="child_name" placeholder="اسم الطفل كاملاً">
+</div>
+
+<div class="field small">
+    <label>الجنس</label>
+    <select name="gender">
+        <option value="">اختر</option>
+        <option value="ذكر">ذكر</option>
+        <option value="أنثى">أنثى</option>
+    </select>
+</div>
 
         <div class="field small">
             <label>العمر (شهر)</label>
@@ -572,27 +581,23 @@
     </div>
 </section>
 
-<!-- ========================= -->
-<!-- تصنيف سوء التغذية وفقر الدم -->
-<!-- ========================= -->
+<!-- ================================= -->
+<!--  تصنيف سوء التغذية وفقر الدم     -->
+<!-- ================================= -->
 <section class="card">
-    <div class="card-title">🍎 تصنيف سوء التغذية وفقر الدم</div>
+    <div class="card-title">🍎 تصنيف سوء التغذية وفقر الدم (IMCI)</div>
 
     <div class="grid">
 
-        <!-- 1. هزال شديد وواضح -->
-        <div class="field wide">
-            <label>هل يوجد هزال شديد وواضح؟</label>
-            <select name="severe_wasting">
-                <option value="">اختر</option>
-                <option value="yes">نعم</option>
-                <option value="no">لا</option>
-            </select>
+        <!-- MUAC -->
+        <div class="field small">
+            <label>محيط منتصف الذراع (MUAC cm)</label>
+            <input type="number" step="0.1" name="muac">
         </div>
 
-        <!-- 2. وذمة في كلا القدمين -->
-        <div class="field wide">
-            <label>هل يوجد تورم لكلا القدمين (وذمة)؟</label>
+        <!-- وذمة -->
+        <div class="field small">
+            <label>وذمة في القدمين</label>
             <select name="bilateral_edema">
                 <option value="">اختر</option>
                 <option value="yes">نعم</option>
@@ -600,33 +605,33 @@
             </select>
         </div>
 
-        <!-- 3. الوزن بالنسبة للطول -->
-        <div class="field small">
-            <label>الوزن بالنسبة للطول (SCORE)</label>
-            <input type="number" step="0.1" name="weight_for_height">
-        </div>
+<!-- ================================ -->
+<!-- نتائج حساب Z-Score التلقائي -->
+<!-- ================================ -->
 
-        <!-- 4. الطول بالنسبة للعمر -->
-        <div class="field small">
-            <label>الطول بالنسبة للعمر (SCORE)</label>
-            <input type="number" step="0.1" name="height_for_age">
-        </div>
+<div class="field small">
+    <label>WHZ (الوزن بالنسبة للطول)</label>
+    <input type="text" id="whzOutput" readonly>
+</div>
 
-        <!-- 5. الوزن بالنسبة للعمر -->
-        <div class="field small">
-            <label>الوزن بالنسبة للعمر (SCORE)</label>
-            <input type="number" step="0.1" name="weight_for_age">
-        </div>
+<div class="field small">
+    <label>WAZ (الوزن بالنسبة للعمر)</label>
+    <input type="text" id="wazOutput" readonly>
+</div>
 
-        <!-- 6. محيط منتصف الذراع للأطفال ≥ 6 أشهر -->
-        <div class="field small">
-            <label>محيط منتصف الذراع (MUAC)</label>
-            <input type="number" step="0.1" name="muac">
-        </div>
+<div class="field small">
+    <label>HAZ (الطول بالنسبة للعمر)</label>
+    <input type="text" id="hazOutput" readonly>
+</div>
 
-        <!-- 7. شحوب الكف -->
-        <div class="field wide">
-            <label>هل يوجد شحوب الكف؟</label>
+<div class="field wide">
+    <label>نتيجة تقييم Z-Score</label>
+    <input type="text" id="zscoreSummary" readonly>
+</div>
+
+        <!-- شحوب -->
+        <div class="field small">
+            <label>شحوب الكف</label>
             <select name="pallor_hand">
                 <option value="">اختر</option>
                 <option value="none">لا يوجد</option>
@@ -635,11 +640,23 @@
             </select>
         </div>
 
-        <!-- 8. التحقق من الهيموغلوبين -->
+        <!-- Hb -->
         <div class="field small">
-            <label>نسبة الهيموغلوبين (Hb g/dL)</label>
+            <label>الهيموغلوبين Hb</label>
             <input type="number" step="0.1" name="hemoglobin">
         </div>
+
+        <!-- النتائج التلقائية -->
+        <div class="field wide">
+            <div id="autoZScores" class="result-box"></div>
+        </div>
+
+        <div class="field wide">
+            <div id="nutritionResult" class="result-box"></div>
+        </div>
+
+    </div>
+</section>
 
         <!-- 9. مهارات تطور الطفل -->
         <div class="field wide">
@@ -924,4 +941,4 @@
 
 <script src="script.js"></script>
 </body>
-</html>
+    </html>
