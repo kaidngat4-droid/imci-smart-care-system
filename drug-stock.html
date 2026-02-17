@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حركة المخزون الدوائي | IMCI</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet" href="dashboard.css">
+<style>
+/* جدول المخزون */
+.drug-stock-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+}
+
+.drug-stock-table th,
+.drug-stock-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.drug-stock-table th {
+    background: #10b981; /* لون العنوان */
+    color: #fff;
+    font-weight: bold;
+}
+
+.drug-stock-table input[type="number"] {
+    width: 70px;
+    padding: 5px;
+    border-radius: 6px;
+    border: 1px solid #10b981;
+    text-align: center;
+}
+
+/* تلوين الصفوف حسب الرصيد */
+.low-stock { background-color: #fef3c7; }   /* أصفر */
+.out-of-stock { background-color: #fee2e2; } /* أحمر */
+.ok-stock { background-color: #d1fae5; }    /* أخضر */
+</style>
+</head>
+<body>
+
+<header class="topbar">
+    <h2>برنامج IMCI الرقمي</h2>
+    <div>
+        <span id="facilityName"></span>
+        <button onclick="logout()">خروج</button>
+    </div>
+</header>
+
+<div class="layout">
+    <aside class="sidebar">
+        <button onclick="goTo('dashboard.html')"><i class="fa-solid fa-house"></i> 🏠 الرئيسية</button>
+    </aside>
+
+    <div class="dashboard-container">
+        <h2>حركة المخزون الدوائي</h2>
+
+        <table class="drug-stock-table">
+            <thead>
+                <tr>
+                    <th>اسم الدواء</th>
+                    <th>الرصيد السابق</th>
+                    <th>الوارد</th>
+                    <th>المصروف</th>
+                    <th>الرصيد الحالي</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>أموكسيسيلين</td>
+                    <td><input type="number" class="prev" value="0"></td>
+                    <td><input type="number" class="in" value="0"></td>
+                    <td><input type="number" class="out" value="0"></td>
+                    <td class="current">0</td>
+                </tr>
+                <tr>
+                    <td>باراسيتامول</td>
+                    <td><input type="number" class="prev" value="0"></td>
+                    <td><input type="number" class="in" value="0"></td>
+                    <td><input type="number" class="out" value="0"></td>
+                    <td class="current">0</td>
+                </tr>
+                <tr>
+                    <td>ORS</td>
+                    <td><input type="number" class="prev" value="0"></td>
+                    <td><input type="number" class="in" value="0"></td>
+                    <td><input type="number" class="out" value="0"></td>
+                    <td class="current">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+// حماية الصفحة
+if(localStorage.getItem("imci_logged_in") !== "true") {
+    window.location.href = "login.html";
+}
+
+// عرض اسم المركز
+const facility = localStorage.getItem("imci_facility") || "مركز غير معروف";
+document.getElementById("facilityName").textContent = facility;
+
+// وظيفة الخروج
+function logout() {
+    localStorage.setItem("imci_logged_in","false");
+    window.location.href="login.html";
+}
+function goTo(page) { window.location.href = page; }
+
+// ===== حفظ واسترجاع بيانات المخزون لكل مركز صحي =====
+const storageKey = `imci_drug_stock_${facility}`;
+let stockData = JSON.parse(localStorage.getItem(storageKey)) || {};
+
+// تحديث الرصيد الحالي وتلوين الصفوف
+const rows = document.querySelectorAll(".drug-stock-table tbody tr");
+rows.forEach((row, index) => {
+    const prevInput = row.querySelector(".prev");
+    const inInput = row.querySelector(".in");
+    const outInput = row.querySelector(".out");
+    const currentCell = row.querySelector(".current");
+
+    // استرجاع البيانات السابقة إن وجدت
+    if(stockData[index]) {
+        prevInput.value = stockData[index].prev;
+        inInput.value = stockData[index].incoming;
+        outInput.value = stockData[index].outgoing;
+    }
+
+    function updateCurrent() {
+        const prev = parseInt(prevInput.value) || 0;
+        const incoming = parseInt(inInput.value) || 0;
+        const outgoing = parseInt(outInput.value) || 0;
+        const current = prev + incoming - outgoing;
+        currentCell.textContent = current;
+
+        // إزالة أي كلاس سابق
+        row.classList.remove("low-stock", "out-of-stock", "ok-stock");
+
+        // تلوين الصف حسب الرصيد
+        if (current <= 0) row.classList.add("out-of-stock");
+        else if (current < 5) row.classList.add("low-stock");
+        else row.classList.add("ok-stock");
+
+        // حفظ البيانات في LocalStorage
+        stockData[index] = { prev, incoming, outgoing };
+        localStorage.setItem(storageKey, JSON.stringify(stockData));
+    }
+
+    prevInput.addEventListener("input", updateCurrent);
+    inInput.addEventListener("input", updateCurrent);
+    outInput.addEventListener("input", updateCurrent);
+
+    // تحديث عند تحميل الصفحة
+    updateCurrent();
+});
+</script>
+
+</body>
+</html>
