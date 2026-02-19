@@ -1,72 +1,123 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>لوحة التحكم | IMCI</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Cairo', sans-serif;
-            background: #f3f4f6;
-            color: #111;
-        }
-        header.topbar {
-            background: #065f46;
-            color: #fff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        header.topbar h2 { margin:0; font-size:20px; }
-        header.topbar div span { font-weight:bold; margin-right:15px; }
-        header.topbar button {
-            background: #ef4444; border:none; color:#fff;
-            padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:bold;
-        }
-        header.topbar button:hover { background: #b91c1c; }
+<meta charset="UTF-8">
+<title>لوحة التحكم | IMCI</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ===== Body و Layout ===== */
+body {
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    background: #f3f4f6;
+    color: #111;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
 
-        .layout { display:flex; min-height: calc(100vh - 60px); }
-        .sidebar {
-            width: 220px; background: #047857; display:flex; flex-direction: column;
-            padding: 20px;
-        }
-        .sidebar button {
-            background: #065f46; color:#fff; border:none; padding:12px; margin-bottom:15px;
-            border-radius:8px; font-weight:bold; cursor:pointer; text-align:right; font-size:14px;
-            transition:0.3s;
-        }
-        .sidebar button:hover { background: #10b981; }
+/* ===== Topbar ===== */
+header.topbar {
+    background: #065f46;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+}
+header.topbar h2 { margin:0; font-size:20px; }
+header.topbar div span { font-weight:bold; margin-right:15px; }
+header.topbar button {
+    background: #ef4444; border:none; color:#fff;
+    padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:bold;
+}
+header.topbar button:hover { background: #b91c1c; }
 
-        .dashboard-container { flex:1; padding:30px; }
-        .welcome-box {
-            background: #ecfdf5; padding:25px; border-radius:14px;
-            margin-bottom:25px; box-shadow:0 4px 12px rgba(0,0,0,0.05);
-        }
-        .welcome-box h2 { font-size:22px; color:#065f46; font-weight:bold; margin-bottom:10px; }
-        .welcome-box p strong { font-weight:bold; color:#065f46; }
+/* ===== Layout ===== */
+.layout { display:flex; flex:1; overflow:hidden; }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        .stat-card {
-            background: #fff; padding:25px 15px; border-radius:14px;
-            box-shadow:0 4px 12px rgba(0,0,0,0.05);
-            display:flex; flex-direction:column; align-items:center; justify-content:center;
-            transition: transform 0.2s; position: relative;
-        }
-        .stat-card:hover { transform: translateY(-5px); }
-        .stat-card h3 { font-size:28px; font-weight:700; color:#047857; margin:10px 0 5px 0; }
-        .stat-card p { font-size:14px; font-weight:bold; color:#374151; text-align:center; }
-        .stat-card i { font-size:32px; color:#10b981; margin-bottom:10px; }
-    </style>
+/* ===== Sidebar ===== */
+.sidebar {
+    width: 250px;
+    background: #047857;
+    display:flex;
+    flex-direction: column;
+    padding:20px;
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+.sidebar button.side-btn {
+    background: #065f46;
+    color:#fff;
+    border:none;
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    text-align:right;
+    font-size:14px;
+    display: flex;
+    align-items: center;
+    gap:8px;
+    transition:0.3s;
+}
+.sidebar button.side-btn:hover { background: #10b981; }
+.sidebar button.side-btn.active { background:#ff9900; }
+
+/* ===== Dashboard Content ===== */
+.dashboard-container {
+    flex:1;
+    padding:30px;
+    overflow-y:auto;
+}
+
+/* ===== صندوق الترحيب ===== */
+.welcome-box {
+    background: #ecfdf5;
+    padding:25px;
+    border-radius:14px;
+    margin-bottom:25px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+.welcome-box h2 { font-size:22px; color:#065f46; font-weight:bold; margin-bottom:10px; }
+.welcome-box p strong { font-weight:bold; color:#065f46; }
+
+/* ===== الإحصائيات داخل الترحيب ===== */
+.stats-inline {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.stat-card {
+    background: #fff;
+    padding: 15px 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    flex: 1 1 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    max-width: 150px;
+    transition: transform 0.2s;
+}
+.stat-card:hover { transform: translateY(-4px); }
+.stat-card h3 { font-size: 24px; font-weight: 700; color: #047857; margin: 5px 0; }
+.stat-card p { font-size: 12px; font-weight: bold; color: #374151; text-align: center; }
+.stat-card i { font-size: 28px; color: #10b981; margin-bottom: 8px; }
+</style>
 </head>
+
 <body>
 
+<!-- Topbar -->
 <header class="topbar">
     <h2>برنامج IMCI الرقمي</h2>
     <div>
@@ -76,100 +127,106 @@
 </header>
 
 <div class="layout">
+
+    <!-- Sidebar -->
     <aside class="sidebar">
 
-        <button onclick="goTo('child-form.html')">
+        <button onclick="goTo('child-form.html')" class="side-btn">
             <i class="fa-solid fa-child"></i> 🧒 تسجيل طفل
         </button>
 
-        <button onclick="goTo('monthly-report.html')">
+        <button onclick="goTo('newborn-form.html')" class="side-btn">
+            <i class="fa-solid fa-baby"></i> 🍼 تسجيل طفل أقل من شهرين
+        </button>
+
+        <button onclick="goTo('monthly-report.html')" class="side-btn">
             <i class="fa-solid fa-chart-column"></i> 📊 التقرير الشهري
         </button>
 
-        <button onclick="alert('سيتم تطوير الدليل لاحقًا')">
+        <button onclick="alert('سيتم تطوير الدليل لاحقًا')" class="side-btn">
             <i class="fa-solid fa-book"></i> 📘 الدليل الإرشادي
         </button>
 
-        <!-- 🔽 أضف هذا الزر الجديد هنا -->
-        <button onclick="goTo('drug-stock.html')">
+        <button onclick="goTo('drug-stock.html')" class="side-btn">
             <i class="fa-solid fa-pills"></i> 💊 حركة المخزون الدوائي
+        </button>
+
+        <button onclick="goTo('children-list.html')" class="side-btn">
+            <i class="fa-solid fa-clipboard-list"></i> 📋 سجل الأطفال
         </button>
 
     </aside>
 
+    <!-- Dashboard Content -->
     <div class="dashboard-container">
 
         <div class="welcome-box">
-            <h2>مرحباً بكم في لوحة التحكم لنظامIMCIالذكي مكتب الصحةوالبيئةمحافظةإب</h2>
+            <h2>مرحباً بكم في لوحة التحكم لنظام IMCI الذكي</h2>
             <p>
                 مركز: <strong id="facilityNameDisplay"></strong><br>
                 السنة: <strong id="currentYear"></strong>
             </p>
-        </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <i class="fa-solid fa-users"></i>
-                <h3 id="totalChildren">0</h3>
-                <p>عدد الأطفال المسجلين</p>
-            </div>
-
-            <div class="stat-card">
-                <i class="fa-solid fa-lungs"></i>
-                <h3 id="pneumoniaCases">0</h3>
-                <p>حالات الالتهاب الرئوي</p>
-            </div>
-
-            <div class="stat-card">
-                <i class="fa-solid fa-droplet"></i>
-                <h3 id="diarrheaCases">0</h3>
-                <p>حالات الإسهال</p>
-            </div>
-
-            <div class="stat-card">
-                <i class="fa-solid fa-ambulance"></i>
-                <h3 id="referralCases">0</h3>
-                <p>عدد الإحالات</p>
+            <!-- الإحصائيات داخل الترحيب -->
+            <div class="stats-inline">
+                <div class="stat-card">
+                    <i class="fa-solid fa-droplet"></i>
+                    <h3 id="diarrheaCases">0</h3>
+                    <p>حالات الإسهال</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fa-solid fa-lungs"></i>
+                    <h3 id="pneumoniaCases">0</h3>
+                    <p>حالات الالتهاب الرئوي</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fa-solid fa-ambulance"></i>
+                    <h3 id="referralCases">0</h3>
+                    <p>عدد الإحالات</p>
+                </div>
             </div>
         </div>
+
+        <!-- هنا يمكن إضافة محتوى Dashboard إضافي -->
 
     </div>
 </div>
 
 <script>
-    // ===== حماية الصفحة =====
-    if (localStorage.getItem("imci_logged_in") !== "true") {
-        window.location.href = "login.html";
-    }
+// حماية الصفحة
+if (localStorage.getItem("imci_logged_in") !== "true") {
+    window.location.href = "login.html";
+}
 
-    const facility = localStorage.getItem("imci_facility") || "مركز غير معروف";
-    document.getElementById("facilityName").textContent = facility;
-    document.getElementById("facilityNameDisplay").textContent = facility;
-    document.getElementById("currentYear").textContent = new Date().getFullYear();
+// بيانات المركز والسنة
+const facility = localStorage.getItem("imci_facility") || "مركز غير معروف";
+document.getElementById("facilityName").textContent = facility;
+document.getElementById("facilityNameDisplay").textContent = facility;
+document.getElementById("currentYear").textContent = new Date().getFullYear();
 
-    function goTo(page) { window.location.href = page; }
-    function logout() {
-        localStorage.setItem("imci_logged_in","false");
-        window.location.href="login.html";
-    }
+// دوال الانتقال والخروج
+function goTo(page) { window.location.href = page; }
+function logout() {
+    localStorage.setItem("imci_logged_in","false");
+    window.location.href="login.html";
+}
 
-    // ===== تحميل البيانات الديناميكية =====
-    const children = JSON.parse(localStorage.getItem("imci_children")) || [];
+// تحميل الإحصائيات
+const children = JSON.parse(localStorage.getItem("imci_children")) || [];
+const filteredChildren = children.filter(c => c.facility === facility);
 
-    // تصفية الأطفال حسب المركز الحالي
-    const filteredChildren = children.filter(c => c.facility === facility);
+document.getElementById("pneumoniaCases").textContent = filteredChildren.filter(c => c.classifications?.cough?.includes("التهاب رئوي")).length;
+document.getElementById("diarrheaCases").textContent = filteredChildren.filter(c => c.classifications?.diarrhea?.includes("إسهال")).length;
+document.getElementById("referralCases").textContent = filteredChildren.filter(c => c.treatment?.referral).length;
 
-    // حساب الإحصائيات
-    const totalChildren = filteredChildren.length;
-    const pneumoniaCases = filteredChildren.filter(c => c.classifications?.cough?.includes("التهاب رئوي")).length;
-    const diarrheaCases = filteredChildren.filter(c => c.classifications?.diarrhea?.includes("إسهال")).length;
-    const referralCases = filteredChildren.filter(c => c.treatment?.referral).length;
-
-    // عرض القيم
-    document.getElementById("totalChildren").textContent = totalChildren;
-    document.getElementById("pneumoniaCases").textContent = pneumoniaCases;
-    document.getElementById("diarrheaCases").textContent = diarrheaCases;
-    document.getElementById("referralCases").textContent = referralCases;
+// تمييز الزر النشط
+const sideButtons = document.querySelectorAll('.side-btn');
+const currentPage = window.location.pathname.split("/").pop();
+sideButtons.forEach(btn => {
+    let page = btn.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || btn.getAttribute('href');
+    if(page === currentPage) btn.classList.add('active');
+});
 </script>
+
 </body>
 </html>
