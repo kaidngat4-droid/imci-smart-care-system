@@ -3,11 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <title>سجل الأطفال | IMCI</title>
-    <link rel="stylesheet" href="children-list.css">
+
+    <!-- الخط -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- ملف التنسيق -->
+    <link rel="stylesheet" href="children-list.css">
+
+    <style>
+        /* ===== الترويسة الرسمية ===== */
+        body {
+            margin: 0;
+            font-family: "Cairo", sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .official-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+            background: linear-gradient(135deg, #e0f0ff, #ffffff);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .official-header .eagle {
+            width: 80px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .official-header .header-text h1,
+        .official-header .header-text h2,
+        .official-header .header-text h3 {
+            margin: 5px 0;
+            text-align: center;
+        }
+
+        .official-header .header-text h1 {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .official-header .header-text h2 {
+            font-size: 20px;
+            color: #0055a5;
+        }
+
+        .official-header .header-text h3 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* ===== شعار البرنامج ===== */
+        .program-logo {
+            text-align: center;
+            margin: 15px 0 25px 0;
+        }
+
+        .program-logo img {
+            width: 60px;
+        }
+
+        .program-logo span {
+            display: block;
+            font-size: 20px;
+            font-weight: bold;
+            color: #0073e6;
+            margin-top: 5px;
+        }
+
+        /* شريط أعلى الصفحة */
+        .topbar {
+            background-color: #0f5c3a;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topbar button {
+            background-color: white;
+            color: #0f5c3a;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .topbar button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #0f5c3a;
+            color: white;
+        }
+
+        .no-data {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
+        }
+    </style>
 </head>
+
 <body>
 
+<!-- الترويسة الرسمية -->
+<header class="official-header">
+    <img src="assets/images/yemen-eagle.png" class="eagle" alt="الطير الجمهوري">
+    <div class="header-text">
+        <h1>الجمهورية اليمنية</h1>
+        <h2>وزارة الصحة والبيئة</h2>
+        <h3>قطاع الرعاية الصحية الأولية – إدارة صحة الطفل</h3>
+    </div>
+</header>
+
+<!-- شعار البرنامج -->
+<div class="program-logo">
+    <img src="assets/images/moh-logo.png" alt="شعار برنامج IMCI">
+    <span>برنامج IMCI الرقمي</span>
+</div>
+
+<!-- شريط أعلى الصفحة -->
 <header class="topbar">
     <h2>📋 سجل الأطفال المسجلين</h2>
     <button onclick="goBack()">↩️ العودة للوحة التحكم</button>
@@ -30,7 +168,6 @@
             </tr>
         </thead>
         <tbody>
-            <!-- البيانات تُملأ آليًا -->
         </tbody>
     </table>
 
@@ -39,5 +176,12 @@
 </main>
 
 <script src="children-list.js"></script>
+
+<script>
+function goBack() {
+    window.location.href = "dashboard.html";
+}
+</script>
+
 </body>
 </html>
