@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>استمارة تسجيل الطفل | IMCI</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+/* ===== إعداد عام ===== */
+body{
+margin:0;
+font-family:"Segoe UI",Tahoma;
+background:#f3f4f6;
+}
+
+/* ===== الترويسة ===== */
+.official-header{
+text-align:center;
+padding:20px;
+background:linear-gradient(135deg,#e0f2fe,#ffffff);
+box-shadow:0 4px 8px rgba(0,0,0,0.1);
+}
+
+.official-header img{
+width:80px;
+margin-bottom:10px;
+}
+
+.official-header h1{margin:5px;font-size:26px;}
+.official-header h2{margin:5px;color:#0ea5e9;}
+.official-header h3{margin:5px;color:#374151;}
+
+.program-logo{
+text-align:center;
+margin:15px;
+font-weight:bold;
+color:#2563eb;
+font-size:20px;
+}
+
+/* ===== الكروت ===== */
+.form-wrapper{
+max-width:1100px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+margin-bottom:20px;
+}
+
+.card-title{
+font-size:18px;
+font-weight:bold;
+margin-bottom:15px;
+padding:8px;
+background:#eef2ff;
+border-right:5px solid #4f46e5;
+border-radius:6px;
+}
+
+/* ===== الحقول ===== */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+
+.field label{
+font-size:13px;
+font-weight:600;
+display:block;
+margin-bottom:5px;
+}
+
+.input-icon{
+position:relative;
+}
+
+.input-icon i{
+position:absolute;
+right:10px;
+top:50%;
+transform:translateY(-50%);
+color:#6b7280;
+}
+
+.input-icon input{
+width:100%;
+padding:8px 35px 8px 8px;
+border:1px solid #d1d5db;
+border-radius:8px;
+}
+
+/* ===== التصنيفات ===== */
+.classification-box{
+margin-top:12px;
+padding:14px;
+border-radius:10px;
+font-weight:bold;
+transition:0.3s;
+}
+
+.danger{
+background:#fee2e2;
+border-right:6px solid #dc2626;
+color:#7f1d1d;
+animation:pulse 1.2s infinite;
+}
+
+.moderate{
+background:#ffedd5;
+border-right:6px solid #f97316;
+color:#9a3412;
+}
+
+.normal{
+background:#dcfce7;
+border-right:6px solid #16a34a;
+color:#065f46;
+}
+
+@keyframes pulse{
+0%{box-shadow:0 0 0 0 rgba(220,38,38,0.7);}
+70%{box-shadow:0 0 0 12px rgba(220,38,38,0);}
+100%{box-shadow:0 0 0 0 rgba(220,38,38,0);}
+}
+
+/* ===== الأزرار ===== */
+.action-buttons{
+display:flex;
+gap:15px;
+margin-top:20px;
+}
+
+.btn{
+padding:10px 18px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.save-btn{background:#059669;color:white;}
+.back-btn{background:#6b7280;color:white;}
+
+</style>
+</head>
+
+<body>
+
+<header class="official-header">
+<img src="assets/images/yemen-eagle.png">
+<h1>الجمهورية اليمنية</h1>
+<h2>وزارة الصحة والبيئة</h2>
+<h3>قطاع الرعاية الصحية الأولية – إدارة صحة الطفل</h3>
+</header>
+
+<div class="program-logo">
+<i class="fa-solid fa-heart-pulse"></i> برنامج IMCI الرقمي
+</div>
+
+<main class="form-wrapper">
+
+<section class="card">
+<div class="card-title"><i class="fa-solid fa-baby"></i> بيانات الطفل الأساسية</div>
+
+<div class="grid">
+
+<div class="field">
+<label>الاسم الكامل</label>
+<div class="input-icon">
+<i class="fa-solid fa-user"></i>
+<input type="text" id="name">
+</div>
+</div>
+
+<div class="field">
+<label>العمر (بالأيام)</label>
+<div class="input-icon">
+<i class="fa-solid fa-calendar-day"></i>
+<input type="number" id="ageDays" oninput="calculateAge()">
+</div>
+</div>
+
+<div class="field">
+<label>العمر (بالشهور)</label>
+<input type="text" id="ageMonths" readonly>
+</div>
+
+<div class="field">
+<label>العمر (بالسنوات)</label>
+<input type="text" id="ageYears" readonly>
+</div>
+
+<div class="field">
+<label>الوزن (كجم)</label>
+<div class="input-icon">
+<i class="fa-solid fa-weight-scale"></i>
+<input type="number" step="0.1">
+</div>
+</div>
+
+<div class="field">
+<label>درجة الحرارة</label>
+<div class="input-icon">
+<i class="fa-solid fa-thermometer-half"></i>
+<input type="number" step="0.1">
+</div>
+</div>
+
+</div>
+</section>
+
+<section class="card">
+<div class="card-title">🦠 العدوى البكتيرية الخطيرة</div>
+<label><input type="checkbox" class="infection"> غير قادر على الرضاعة</label><br>
+<label><input type="checkbox" class="infection"> تشنجات</label><br>
+<label><input type="checkbox" class="infection"> يتنفس بسرعة</label><br>
+
+<div class="classification-box normal" id="infection-box"></div>
+</section>
+
+<div class="action-buttons">
+<button class="btn save-btn" onclick="saveNewborn()">💾 حفظ وترحيل</button>
+<button class="btn back-btn" onclick="goBack()">↩️ عودة</button>
+</div>
+
+</main>
+
+<script>
+
+function calculateAge(){
+let days=document.getElementById("ageDays").value;
+document.getElementById("ageMonths").value=(days/30).toFixed(1);
+document.getElementById("ageYears").value=(days/365).toFixed(2);
+}
+
+function setBox(box,type,text){
+box.className="classification-box "+type;
+box.innerHTML=text;
+}
+
+function checkInfection(){
+let checked=document.querySelectorAll(".infection:checked").length;
+let box=document.getElementById("infection-box");
+
+if(checked>0){
+setBox(box,"danger","🚨 مرض بكتيري خطير – إحالة فورية");
+}else{
+setBox(box,"normal","✅ لا توجد علامات خطورة");
+}
+}
+
+document.querySelectorAll(".infection").forEach(el=>{
+el.addEventListener("change",checkInfection);
+});
+
+function saveNewborn(){
+alert("✅ تم حفظ البيانات وترحيلها للتقرير الشهري");
+window.location.href="monthly-report.html";
+}
+
+function goBack(){
+window.location.href="dashboard.html";
+}
+
+checkInfection();
+
+</script>
+
+</body>
+</html>
