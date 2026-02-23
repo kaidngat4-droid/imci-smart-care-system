@@ -124,7 +124,7 @@ function classifyDangerSigns() {
         resultBox.innerHTML = `
             🔴 مرض شديد جداً<br>
             🚑 إحالة فورية للمستشفى<br>
-            💉 إعطاء الجرعة الأولى قبل الإحالة
+            💉 إعطاء الجرعة الأولى امبسلين +محلول سكري ٤٠% بالوريد قبل الإحالة
         `;
 
         resultBox.style.background = "#fecaca";
@@ -230,7 +230,7 @@ function classifyThroat() {
 
     // 🔴 التهاب حلق سبحي
     if (fever === "yes" && tenderNodes && tonsilExudate) {
-        resultBox.innerHTML = "🔴 التهاب الحلق السبحي – أعطِ أموكسيسيلين حسب الوزن لمدة 5 أيام";
+        resultBox.innerHTML = "🔴 التهاب الحلق السبحي – أعطِ بنسلين في حسب الوزن لمدة 5 أيام";
         resultBox.style.background = "#fecaca";
         return;
     }
@@ -284,7 +284,7 @@ function classifyEar() {
         earPain === "yes" ||
         (earDischarge === "yes" && earDischargeDays < 14)
     ) {
-        resultBox.innerHTML = "🟡 التهاب أذن حاد – أموكسيسيلين لمدة 5 أيام + باراسيتامول";
+        resultBox.innerHTML = "🟡 التهاب أذن حاد – أموكسيسيلين لمدة 10 أيام + باراسيتامول";
         resultBox.style.background = "#fde68a";
         return;
     }
