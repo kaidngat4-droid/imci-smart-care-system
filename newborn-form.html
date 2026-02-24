@@ -302,6 +302,62 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
   <!-- صندوق التصنيف -->
   <div class="classification-box normal" id="weight-box"></div>
 </section>
+<!-- ===== علاج الطفل ===== -->
+<section class="card">
+  <div class="card-title">🩺 علاج الطفل والإجراءات المتخذة</div>
+
+  <!-- ملخص القرار النهائي -->
+  <div class="classification-box normal" id="final-decision-box">
+    ⚪ لم يتم تحديد القرار بعد
+  </div>
+
+  <hr>
+
+  <h4>💊 الأدوية المعطاة:</h4>
+
+  <div class="checkbox-group">
+    <input type="checkbox" id="antibiotic_given">
+    💉 مضاد حيوي حقني
+  </div>
+
+  <div class="checkbox-group">
+    <input type="checkbox" id="oral_antibiotic">
+    💊 مضاد حيوي فموي
+  </div>
+
+  <div class="checkbox-group">
+    <input type="checkbox" id="ors_given">
+    💧 محلول ORS
+  </div>
+
+  <div class="checkbox-group">
+    <input type="checkbox" id="zinc_given">
+    🧂 زنك
+  </div>
+
+  <div class="checkbox-group">
+    <input type="checkbox" id="eye_ointment">
+    👁️ مرهم عيني
+  </div>
+
+  <div class="checkbox-group">
+    <input type="checkbox" id="cord_care">
+    🧴 عناية بالسرة
+  </div>
+
+  <hr>
+
+  <div class="field">
+    <label>📅 موعد المراجعة:</label>
+    <input type="date" id="followup_date">
+  </div>
+
+  <div class="field">
+    <label>📝 ملاحظات إضافية:</label>
+    <textarea id="treatment_notes" rows="3"></textarea>
+  </div>
+
+</section>
 
 <!-- ===== أزرار الحفظ والعودة ===== -->
 <div class="action-buttons">
@@ -312,354 +368,255 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
 </main>
 
 <script>
-// ===== التحديث التلقائي للتصنيف =====
+// ==================================================
+// 🔷 أدوات عامة
+// ==================================================
 function setBox(box,type,text){
     box.classList.remove("danger","moderate","normal");
     box.classList.add(type);
     box.innerHTML=text;
+    generateFinalDecision();
 }
 
-function checkGroup(cls,boxId){
-    const elements=document.querySelectorAll("."+cls);
-    const box=document.getElementById(boxId);
-    let issue=false;
-    elements.forEach(el=>{
-        if(el.type==="checkbox" && el.checked) issue=true;
-    });
-    if(issue){
-        setBox(box,"danger","احتمال الاصابه بالتهاب بكتيري خطيرة | إحالة عاجلة +محلول سكري اذا كان الطفل لايستطيع الرضاعة +إعطاء الجنتاميسين عضل قبل الإحالة🚨 ");
-    } else{
-        setBox(box,"normal","✅ لا توجد علامات عدوى خطيرة");
+// ==================================================
+// 🔴 1- العدوى البكتيرية الخطيرة
+// ==================================================
+function checkInfection(){
+    const elements=document.querySelectorAll(".infection");
+    const box=document.getElementById("infection-box");
+    let found=false;
+
+    elements.forEach(el=>{ if(el.checked) found=true; });
+
+    if(found){
+        setBox(box,"danger",
+        "🚨 احتمال الإصابة بالتهاب بكتيري خطير<br><br>" +
+        "🔹 إحالة فورية<br>" +
+        "🔹 إعطاء أول جرعة مضاد حيوي جنتاميسين عضل +محلول سكري في حاله عدم الرضاعه <br>" +
+        "🔹 إبقاء الطفل دافئًا");
+    }else{
+        setBox(box,"normal","✅ لا توجد علامات خطورة");
     }
 }
-// تحديث التصنيف التلقائي لجميع المجموعات
-["infection","jaundice"].forEach(cls=>{
-    document.querySelectorAll("."+cls).forEach(el=>{
-        el.addEventListener("change",()=>checkGroup(cls,cls+"-box"));
-    });
-});
 
-// تحديث دالة checkGroup لدعم اليرقان
-function checkGroup(cls,boxId){
-    const elements=document.querySelectorAll("."+cls);
-    const box=document.getElementById(boxId);
-    let issue=false;
-    elements.forEach(el=>{
-        if(el.type==="checkbox" && el.checked) issue=true;
-    });
+// ==================================================
+// 🟡 2- اليرقان
+// ==================================================
+function checkJaundice(){
+    const elements=document.querySelectorAll(".jaundice");
+    const box=document.getElementById("jaundice-box");
+    let found=false;
 
-    if(cls==="infection"){
-        if(issue){
-            setBox(box,"danger","🚨 حالة خطيرة | إحالة فورية + العلاج حسب الدليل");
-        }else{
-            setBox(box,"normal","✅ لا توجد علامات خطورة");
-        }
-    }
+    elements.forEach(el=>{ if(el.checked) found=true; });
 
-    if(cls==="jaundice"){
-        if(issue){
-            setBox(box,"danger","⚠️ يرقان خطير | إحالة عاجلة للمستشفى + متابعة فورية");
-        }else{
-            setBox(box,"normal","✅ لا يوجد يرقان خطير");
-        }
+    if(found){
+        setBox(box,"danger",
+        "⚠️ يرقان خطير<br><br>" +
+        "🔹 إحالة عاجلة للمستشفى والاستمراربالرضاعة اواعطاءمحلول سكري قبل الاحاله<br>" +
+        "🔹 متابعة فورية");
+    }else{
+        setBox(box,"normal","✅ لا يوجد يرقان خطير");
     }
 }
+
+// ==================================================
+// 💧 3- الإسهال
+// ==================================================
 function checkDiarrhea(){
 
 const box = document.getElementById("diarrhea-box");
 
 const hasDiarrhea = document.getElementById("diarrhea_present").checked;
 const days = parseInt(document.getElementById("diarrhea_days").value || 0);
-
 const lethargic = document.getElementById("lethargic").checked;
 const sunken = document.getElementById("sunken_eyes").checked;
 const drinkPoor = document.getElementById("drinks_poorly").checked;
 const skinSlow = document.getElementById("skin_slow").checked;
 const blood = document.getElementById("blood_stool").checked;
 
-let severeSigns = 0;
-let someSigns = 0;
+let severe = 0;
+let some = 0;
 
-if(lethargic) severeSigns++;
-if(drinkPoor) severeSigns++;
-if(sunken) someSigns++;
-if(skinSlow) someSigns++;
+if(lethargic) severe++;
+if(drinkPoor) severe++;
+if(sunken) some++;
+if(skinSlow) some++;
 
-// 🔴 جفاف شديد
-if(hasDiarrhea && severeSigns >=2){
-    setBox(box,"danger",
-    "🚨 إسهال مع جفاف شديد\n\n" +
-    "🔹 إحالة فورية\n" +
-    "🔹 بدء سوائل وريدية (Plan C)\n" +
-    "🔹 مراقبة دقيقة");
+if(hasDiarrhea && severe>=2){
+    setBox(box,"danger","🚨 إسهال مع جفاف شديد<br>🔹 إحالة فورية + خطة C");
     return;
 }
 
-// 🟠 بعض الجفاف
-if(hasDiarrhea && (someSigns >=2)){
-    setBox(box,"moderate",
-    "🟠 إسهال مع بعض الجفاف\n\n" +
-    "🔹 إعطاء ORS (الخطة B)\n" +
-    "🔹 مراقبة 4 ساعات\n" +
-    "🔹 متابعة بعد يومين");
+if(hasDiarrhea && some>=2){
+    setBox(box,"moderate","🟠 إسهال مع بعض الجفاف<br>🔹 ORS خطة B + متابعة");
     return;
 }
 
-// 🟣 دم بالبراز
 if(hasDiarrhea && blood){
-    setBox(box,"moderate",
-    "🩸 زحار (دم في البراز)\n\n" +
-    "🔹 مضاد حيوي مناسب\n" +
-    "🔹 ORS\n" +
-    "🔹 متابعة قريبة");
+    setBox(box,"moderate","🩸 زحار<br>🔹 مضاد حيوي + ORS");
     return;
 }
 
-// 🔵 إسهال مستمر
-if(hasDiarrhea && days >=14){
-    setBox(box,"moderate",
-    "🔵 إسهال مستمر شديد\n\n" +
-    "🔹 تقييم سوء التغذية\n" +
-    "🔹 خطة تغذية خاصة\n" +
-    "🔹 إحالة إذا لزم الأمر");
+if(hasDiarrhea && days>=14){
+    setBox(box,"moderate","🔵 إسهال مستمر شديد<br>🔹 تقييم سوء التغذية");
     return;
 }
 
-// 🟢 لا يوجد جفاف
 if(hasDiarrhea){
-    setBox(box,"normal",
-    "🟢 إسهال بدون جفاف\n\n" +
-    "🔹 ORS في المنزل\n" +
-    "🔹 استمرار الرضاعة\n" +
-    "🔹 إعطاء الزنك\n" +
-    "🔹 إرشاد علامات الخطر");
+    setBox(box,"normal","🟢 إسهال لايوجد جفاف<br>🔹 ORS + زنك");
     return;
 }
 
-// لا يوجد إسهال
 setBox(box,"normal","✅ لا يوجد إسهال");
-
 }
 
-// ربط الأحداث
-document.querySelectorAll("#diarrhea_present, #diarrhea_days, #lethargic, #sunken_eyes, #drinks_poorly, #skin_slow, #blood_stool")
-.forEach(el=>{
-el.addEventListener("change",checkDiarrhea);
-});
+// ==================================================
+// 🥛 4- التغذية
+// ==================================================
 function checkFeeding(){
 
 const box=document.getElementById("feeding-box");
-
 const unable=document.getElementById("unable_feed").checked;
 const lethargic=document.getElementById("lethargic_feed").checked;
 const ulcer=document.getElementById("mouth_ulcer").checked;
 const times=parseInt(document.getElementById("feeding_times").value || 0);
-const weight=parseFloat(document.getElementById("weight_check").value || 0);
 
-// 🔴 مشكلة شديدة
 if(unable || lethargic){
-    setBox(box,"danger",
-    "🚨 مشكلة تغذية شديدة\n\n" +
-    "🔹 الإجراء: إحالة فورية للمستشفى\n" +
-    "🔹 إبقاء الطفل دافئًا\n" +
-    "🔹 منع انخفاض السكر\n" +
-    "🔹 بدء علاج حسب البروتوكول");
+    setBox(box,"danger","🚨 مشكلة تغذية شديدة<br>🔹 إحالة فورية");
     return;
 }
 
-// 🟠 مشكلة تغذية
-if(times > 0 && times < 8 || ulcer){
-    setBox(box,"moderate",
-    "🟠 مشكلة تغذية\n\n" +
-    "🔹 تصحيح وضعية الرضاعة\n" +
-    "🔹 دعم الأم ومراقبة الالتصاق الجيد\n" +
-    "🔹 علاج تقرحات الفم إن وجدت\n" +
-    "🔹 مراجعة خلال يومين");
+if((times>0 && times<8) || ulcer){
+    setBox(box,"moderate","🟠 مشكلة تغذية<br>🔹 دعم الرضاعة + مراجعة");
     return;
 }
 
-// 🟢 طبيعي
-setBox(box,"normal",
-"✅ رضاعة طبيعية\n\n" +
-"🔹 الاستمرار بالرضاعة الطبيعية الحصرية\n" +
-"🔹 ≥ 8 رضعات يومياً\n" +
-"🔹 متابعة روتينية");
-
+setBox(box,"normal","✅ رضاعة طبيعية");
 }
 
-// ربط الأحداث
-document.querySelectorAll(".feeding").forEach(el=>{
-    el.addEventListener("change",checkFeeding);
-});
-
-// ربط جميع مدخلات الإسهال بالتحديث التلقائي
-document.querySelectorAll(".diarrhea").forEach(el=>{
-  el.addEventListener("change",()=>checkDiarrhea());
-});
-
-// تشغيل أولي عند تحميل الصفحة
-window.onload=function(){
-  checkDiarrhea();
-};
+// ==================================================
+// 🩹 5- التهاب موضعي
+// ==================================================
 function checkLocalInfection(){
-
-const box = document.getElementById("local-infection-box");
-
-const signs = document.querySelectorAll(".local-infection");
-let found = false;
-
-signs.forEach(el=>{
-    if(el.checked) found = true;
-});
+const box=document.getElementById("local-infection-box");
+let found=false;
+document.querySelectorAll(".local-infection")
+.forEach(el=>{ if(el.checked) found=true; });
 
 if(found){
-    setBox(box,"moderate",
-    "🟠 التهاب بكتيري موضعي\n\n" +
-    "🔹 إعطاء مضاد حيوي فموي مناسب\n" +
-    "🔹 تنظيف موضعي بمطهر\n" +
-    "🔹 مرهم عيني إن وجد التهاب عين\n" +
-    "🔹 مراجعة خلال يومين\n" +
-    "🔹 تثقيف الأم حول علامات الخطر");
+    setBox(box,"moderate","🟠 التهاب بكتيري موضعي<br>🔹 مضاد حيوي فموي + مراجعة");
+}else{
+    setBox(box,"normal","✅ لا يوجد التهاب موضعي");
 }
-else{
-    setBox(box,"normal",
-    "✅ لا يوجد التهاب بكتيري موضعي\n\n" +
-    "🔹 متابعة روتينية");
 }
 
-}
-
-// ربط الأحداث
-document.querySelectorAll(".local-infection")
-.forEach(el=>{
-el.addEventListener("change",checkLocalInfection);
-});
-
-// تشغيل أولي
-window.addEventListener("load",checkLocalInfection);
-
+// ==================================================
+// ⚖️ 6- الوزن
+// ==================================================
 function checkWeight(){
 
-const age = parseInt(document.getElementById("age_days").value || 0);
-const weight = parseFloat(document.getElementById("weight_value").value || 0);
-const box = document.getElementById("weight-box");
+const age=parseInt(document.getElementById("age_days").value||0);
+const weight=parseFloat(document.getElementById("weight_value").value||0);
+const box=document.getElementById("weight-box");
 
-if(age === 0 || weight === 0){
-    setBox(box,"normal","⚪ الرجاء إدخال العمر والوزن");
+if(!age || !weight){
+    setBox(box,"normal","⚪ أدخل العمر والوزن");
     return;
 }
 
-let veryLow = false;
-let low = false;
-
-// الفئة الأولى
-if(age <= 7){
-    if(weight < 2.0) veryLow = true;
-    else if(weight < 2.5) low = true;
-}
-
-// الفئة الثانية
-else if(age <= 28){
-    if(weight < 2.3) veryLow = true;
-    else if(weight < 3.0) low = true;
-}
-
-// الفئة الثالثة
-else{
-    if(weight < 3.0) veryLow = true;
-    else if(weight < 3.8) low = true;
-}
-
-// 🔴 وزن منخفض جدًا
-if(veryLow){
-    setBox(box,"danger",
-    "🚨 وزن منخفض جدًا بالنسبة للعمر\n\n" +
-    "🔹 إحالة عاجلة للتقييم المتخصص\n" +
-    "🔹 تقييم التغذية فورًا\n" +
-    "🔹 منع انخفاض السكر\n" +
-    "🔹 إبقاء الطفل دافئًا");
+if(weight<2){
+    setBox(box,"danger","🚨 وزن منخفض جدًا<br>🔹 إحالة عاجلة");
     return;
 }
 
-// 🟠 وزن منخفض
-if(low){
-    setBox(box,"moderate",
-    "🟠 وزن منخفض بالنسبة للعمر\n\n" +
-    "🔹 تقييم الرضاعة\n" +
-    "🔹 دعم الأم\n" +
-    "🔹 متابعة خلال يومين\n" +
-    "🔹 مراقبة زيادة الوزن");
+if(weight<3){
+    setBox(box,"moderate","🟠 وزن منخفض<br>🔹 متابعة قريبة");
     return;
 }
 
-// 🟢 طبيعي
-setBox(box,"normal",
-"✅ وزن طبيعي بالنسبة للعمر\n\n" +
-"🔹 متابعة روتينية\n" +
-"🔹 الاستمرار بالرضاعة الطبيعية");
-
+setBox(box,"normal","✅ وزن طبيعي");
 }
 
-// ربط التحديث التلقائي
+// ==================================================
+// 🧠 7- القرار النهائي
+// ==================================================
+function generateFinalDecision(){
+
+const box=document.getElementById("final-decision-box");
+
+const texts=[
+infection-box.innerText,
+jaundice-box.innerText,
+diarrhea-box.innerText,
+feeding-box.innerText,
+weight-box.innerText
+];
+
+let severe=texts.some(t=>t.includes("🚨"));
+let moderate=texts.some(t=>t.includes("🟠") || t.includes("🩸") || t.includes("🔵"));
+
+if(severe){
+box.className="classification-box danger";
+box.innerHTML="🚨 القرار النهائي: إحالة فورية للمستشفى";
+return;
+}
+
+if(moderate){
+box.className="classification-box moderate";
+box.innerHTML="🟠 القرار النهائي: علاج بالمرفق + متابعة";
+return;
+}
+
+box.className="classification-box normal";
+box.innerHTML="✅ القرار النهائي: متابعة منزلية";
+}
+
+// ==================================================
+// 💾 8- حفظ البيانات
+// ==================================================
+function saveNewborn(){
+
+const name=document.querySelector('[name="child_name"]').value.trim();
+const age=document.querySelector('[name="age_days"]').value.trim();
+const weight=document.querySelector('[name="weight"]').value.trim();
+const height=document.querySelector('[name="height"]').value.trim();
+const temp=document.querySelector('[name="temperature"]').value.trim();
+const visit=document.querySelector('[name="visit_type"]').value;
+
+if(!name||!age||!weight||!height||!temp||!visit){
+alert("⚠️ أدخل جميع البيانات الأساسية");
+return;
+}
+
+alert("✅ تم حفظ البيانات بنجاح");
+window.location.href="monthly-report.html";
+}
+
+// ==================================================
+// 🔗 ربط الأحداث
+// ==================================================
+document.querySelectorAll(".infection").forEach(el=>el.addEventListener("change",checkInfection));
+document.querySelectorAll(".jaundice").forEach(el=>el.addEventListener("change",checkJaundice));
+document.querySelectorAll(".local-infection").forEach(el=>el.addEventListener("change",checkLocalInfection));
+document.querySelectorAll(".feeding").forEach(el=>el.addEventListener("input",checkFeeding));
+document.querySelectorAll("#diarrhea_present,#diarrhea_days,#lethargic,#sunken_eyes,#drinks_poorly,#skin_slow,#blood_stool")
+.forEach(el=>el.addEventListener("change",checkDiarrhea));
 document.getElementById("age_days").addEventListener("input",checkWeight);
 document.getElementById("weight_value").addEventListener("input",checkWeight);
 
 // تشغيل أولي
-window.addEventListener("load",checkWeight);
-
-// ربط كل خانة checkbox
-document.querySelectorAll(".infection").forEach(el=>{
-    el.addEventListener("change",()=>checkGroup("infection","infection-box"));
+window.addEventListener("load",()=>{
+checkInfection();
+checkJaundice();
+checkDiarrhea();
+checkFeeding();
+checkLocalInfection();
+checkWeight();
 });
-// ===== حفظ البيانات مع التحقق من البيانات الأساسية =====
-function saveNewborn(){
-    const name = document.querySelector('input[name="child_name"]').value.trim();
-    const age_days = document.querySelector('input[name="age_days"]').value.trim();
-    const weight = document.querySelector('input[name="weight"]').value.trim();
-    const height = document.querySelector('input[name="height"]').value.trim();
-    const temperature = document.querySelector('input[name="temperature"]').value.trim();
-    const visit_type = document.querySelector('select[name="visit_type"]').value.trim();
 
-    if(!name || !age_days || !weight || !height || !temperature || !visit_type){
-        alert("⚠️ يرجى إدخال جميع البيانات الأساسية للطفل قبل الحفظ!");
-        return;
-    }
-
-    const facility = localStorage.getItem("imci_facility") || "غير محدد";
-    let children = JSON.parse(localStorage.getItem("imci_children")) || [];
-
-    const childData = {
-        type:"newborn",
-        facility:facility,
-        date:new Date().toISOString(),
-        name:name,
-        age_days:age_days,
-        weight:weight,
-        height:height,
-        temperature:temperature,
-        visit_type:visit_type,
-        infection:document.getElementById("infection-box").innerText
-    };
-    children.push(childData);
-    localStorage.setItem("imci_children",JSON.stringify(children));
-
-    // ترحيل التقرير الشهري
-    let report = JSON.parse(localStorage.getItem("imci_monthly")) || {severe:0, normal:0};
-    if(childData.infection.includes("خطيرة")) report.severe++;
-    else report.normal++;
-    localStorage.setItem("imci_monthly",JSON.stringify(report));
-
-    alert("✅ تم حفظ البيانات وترحيلها للتقرير الشهري");
-    window.location.href="monthly-report.html";
+function goBack(){
+window.location.href="dashboard.html";
 }
-
-// العودة للوحة التحكم
-function goBack(){ window.location.href="dashboard.html"; }
-
-// تشغيل أولي
-window.onload=function(){
-    checkGroup("infection","infection-box");
-};
 </script>
 </body>
 </html>
