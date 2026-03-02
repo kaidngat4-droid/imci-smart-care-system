@@ -84,6 +84,63 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
 <img src="assets/images/moh-logo.png" alt="شعار برنامج IMCI">
 <span>برنامج IMCI الرقمي</span>
 </div>
+   <section class="card">
+    <div class="card-title">🏥 بيانات المرفق</div>
+
+    <div class="grid">
+
+        <!-- المحافظة - إدخال يدوي -->
+        <div class="field small">
+            <label>المحافظة</label>
+            <input type="text" name="governorate" placeholder="أدخل المحافظة" required>
+        </div>
+
+        <!-- المديرية - إدخال يدوي -->
+        <div class="field small">
+            <label>المديرية</label>
+            <input type="text" name="district" placeholder="أدخل المديرية" required>
+        </div>
+
+        <!-- اسم المرفق الصحي - إدخال يدوي -->
+        <div class="field small">
+            <label>اسم المرفق الصحي</label>
+            <input type="text" name="facility_name" placeholder="أدخل اسم المرفق الصحي">
+        </div>
+
+        <!-- العامل الصحي -->
+        <div class="field small">
+            <label>العامل الصحي</label>
+            <input type="text" name="health_worker">
+        </div>
+
+        <!-- السنة -->
+        <div class="field small">
+            <label>السنة</label>
+            <input type="number" name="report_year">
+        </div>
+
+        <!-- الشهر -->
+        <div class="field small">
+            <label>الشهر</label>
+            <select name="report_month">
+                <option value="">اختر الشهر</option>
+                <option value="1">يناير</option>
+                <option value="2">فبراير</option>
+                <option value="3">مارس</option>
+                <option value="4">أبريل</option>
+                <option value="5">مايو</option>
+                <option value="6">يونيو</option>
+                <option value="7">يوليو</option>
+                <option value="8">أغسطس</option>
+                <option value="9">سبتمبر</option>
+                <option value="10">أكتوبر</option>
+                <option value="11">نوفمبر</option>
+                <option value="12">ديسمبر</option>
+            </select>
+        </div>
+
+    </div>
+   </section> 
 
 <main class="form-wrapper">
 
